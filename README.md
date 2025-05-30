@@ -11,6 +11,7 @@ SmartDoc is a mobile-first health platform designed for Nigeria’s healthcare s
 - [Available Scripts](#available-scripts)
 - [Environment Variables](#environment-variables)
 - [Contributing](#contributing)
+- [Contributors](#contributors)
 - [License](#license)
 - [Contact](#contact)
 
@@ -57,14 +58,14 @@ Follow these steps to set up and run the project locally:
    cd SmartDoc-FE
    ```
 2. **Install dependencies**
-    ```bash
+   ```bash
    npm install
-  or
-  yarn install
+   or
+   yarn install
   ```
 3. **Configure enviroment variables**
   ```bash
-  VITE_API_URL=http://localhost:8000 
+  VITE_API_URL= 
   VITE_WHATSAPP_API_KEY=your_twilio_key  # Twilio WhatsApp API key
   VITE_JITSI_DOMAIN=meet.jit.si  # Jitsi server for telehealth
   ```
@@ -105,6 +106,11 @@ We welcome contributions to SmartDoc! Follow these steps:
 .. Commit changes (git commit -m "Add your feature").
 .. Push to the branch (git push origin feature/your-feature).
 .. Open a pull request with a clear description.
+
+## Contributors
+- [@collaborator1](ulokoblessing32@gmail.com)
+- [@collaborator2](adamsabubakrsiddique@gmail.com)
+- [@collaborator3](fawwazmakinde47@gmail.com)
 
 ## License
 This project is licensed under the MIT License. See LICENSE for details.
