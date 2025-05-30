@@ -57,17 +57,17 @@ Follow these steps to set up and run the project locally:
    cd SmartDoc-FE
    ```
 2. **Install dependencies**
-  ```bash
+    ```bash
    npm install
-or
+  or
   yarn install
-```
+  ```
 3. **Configure enviroment variables**
   ```bash
-VITE_API_URL=http://localhost:8000 
-VITE_WHATSAPP_API_KEY=your_twilio_key  # Twilio WhatsApp API key
-VITE_JITSI_DOMAIN=meet.jit.si  # Jitsi server for telehealth
-```
+  VITE_API_URL=http://localhost:8000 
+  VITE_WHATSAPP_API_KEY=your_twilio_key  # Twilio WhatsApp API key
+  VITE_JITSI_DOMAIN=meet.jit.si  # Jitsi server for telehealth
+  ```
 4. **Run the developement server**
    ```bash
    npm run dev
@@ -79,6 +79,7 @@ VITE_JITSI_DOMAIN=meet.jit.si  # Jitsi server for telehealth
    npm run build
    ```
 
+## Project Structure
 SmartDoc-FE/
 ├── public/               # Static assets (e.g., favicon, logo)
 ├── src/                  # Source code
@@ -97,12 +98,21 @@ SmartDoc-FE/
 ├── package.json          # Dependencies and scripts
 └── README.md             # This file
 
-**Contributing**
+## Contributing
 We welcome contributions to SmartDoc! Follow these steps:
 .. Fork the repository.
 .. Create a feature branch (git checkout -b feature/your-feature).
 .. Commit changes (git commit -m "Add your feature").
 .. Push to the branch (git push origin feature/your-feature).
 .. Open a pull request with a clear description.
+
+## License
+This project is licensed under the MIT License. See LICENSE for details.
+Contact
+For questions or support, contact:
+Maintainer: Chukwuemeka Obasi (obasyemeka@gmail.com)
+
+GitHub Issues: Open an issue
+
 
 
