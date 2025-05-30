@@ -46,14 +46,14 @@ Ensure you have the following installed:
 - **npm** (v8 or higher, comes with Node.js) or **yarn** (optional)
 - **Git**: [Download](https://git-scm.com/)
 - A modern browser (e.g., Chrome, Firefox) for development
-- (Optional) Backend setup: [SmartDoc Backend Repo](https://github.com/yourusername/smartdoc-backend) for FastAPI and Llama AI integration
+- (Optional) Backend setup: https://github.com/smart-doc/SmartDoc-BE for django and Llama AI integration
 
 ## Setup Instructions
 Follow these steps to set up and run the project locally:
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/yourusername/smartdoc-frontend.git
+   git clone https://github.com/smart-doc/SmartDoc-FE
    cd SmartDoc-FE
    ```
 2. **Install dependencies**
