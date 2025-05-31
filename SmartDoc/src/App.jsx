@@ -17,7 +17,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<PatientDashboard />} />
-        {/* <Route path='/patientsChat' element={<ChatStart />} /> */}
+        <Route path='/patientsChat' element={<ChatStart />} />
         <Route path="/doctor" element={<DoctorPortal />} />
         <Route path='/summarySent' element={<SummarySent />} />
         <Route path="/record" element={<Recording />} />
