@@ -5,6 +5,7 @@ import DoctorPortal from './pages/doctor/DoctorPortal';
 import NoPage from './pages/NoPage'
 import Navbar from './components/Navbar';
 import ChatStart from './pages/patient/ChatStart';
+import SummarySent from './pages/patient/SummarySent';
 
 function App() {
 
@@ -14,6 +15,7 @@ function App() {
         <Route path="/" element={<PatientDashboard />} />
         <Route path='/patientsChat' element={<ChatStart />} />
         <Route path="/doctor" element={<DoctorPortal />} />
+        <Route path='/summarySent' element={<SummarySent />} />
         <Route path='*' element={<NoPage />} />
       </Routes>
 
