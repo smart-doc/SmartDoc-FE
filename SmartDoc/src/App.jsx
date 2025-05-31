@@ -4,6 +4,8 @@ import PatientDashboard from './pages/patient/PatientDashboard';
 import DoctorPortal from './pages/doctor/DoctorPortal';
 import NoPage from './pages/NoPage'
 import Navbar from './components/Navbar';
+import Recording from './pages/patient/Recording';
+
 
 function App() {
 
@@ -12,7 +14,9 @@ function App() {
       <Routes>
         <Route path="/" element={<PatientDashboard />} />
         <Route path="/doctor" element={<DoctorPortal />} />
+        <Route path="/record" element={<Recording />} />
         <Route path='*' element={<NoPage />} />
+      
       </Routes>
 
       <Navbar />
