@@ -5,7 +5,6 @@ import DoctorPortal from './pages/doctor/DoctorPortal';
 import NoPage from './pages/NoPage'
 import Navbar from './components/Navbar';
 import ChatStart from './pages/patient/ChatStart';
-import FollowUpChat from './pages/patient/FollowUpChat';
 
 function App() {
 
@@ -15,7 +14,6 @@ function App() {
         <Route path="/" element={<PatientDashboard />} />
         <Route path='/patientsChat' element={<ChatStart />} />
         <Route path="/doctor" element={<DoctorPortal />} />
-        <Route path='/FollowUpchat' element={<FollowUpChat />} />
         <Route path='*' element={<NoPage />} />
       </Routes>
 
