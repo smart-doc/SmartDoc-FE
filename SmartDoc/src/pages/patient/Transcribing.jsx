@@ -10,11 +10,11 @@ export default function Transcribing() {
 
   useEffect(() => {
     // Simulate patient starting to speak after 2 seconds
-    const timer = setTimeout(() => {
-      navigate('/confirm');
-    }, 2000); // Change to real speech detection when ready
+    // const timer = setTimeout(() => {
+    //   navigate('/confirm');
+    // }, 2000); // Change to real speech detection when ready
 
-    return () => clearTimeout(timer);
+    // return () => clearTimeout(timer);
   }, [navigate]);
 
   return (
