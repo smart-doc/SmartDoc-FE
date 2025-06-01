@@ -8,6 +8,7 @@ import ChatStart from './pages/patient/ChatStart';
 import SummarySent from './pages/patient/SummarySent';
 import Recording from './pages/patient/Recording';
 import Transcribing from './pages/patient/Transcribing';
+import ConfirmTranscription from "./pages/patient/ConfirmTransciption";
 import CreateAccount from './pages/CreateAccount';
 import VerifyEmail from './pages/VerifyEmail';
 import PersonalInfo from './pages/PersonalInfo';
@@ -36,6 +37,7 @@ function App() {
         <Route path='/summarySent' element={<SummarySent />} />
         <Route path="/record" element={<Recording />} />
         <Route path="/transcribing" element={<Transcribing />} />
+        <Route path="/confirm" element={<ConfirmTranscription />} />
         <Route path='*' element={<NoPage />} />
       
       </Routes>
