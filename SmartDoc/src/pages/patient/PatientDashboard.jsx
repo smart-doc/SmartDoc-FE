@@ -5,7 +5,6 @@ import heroImage from "../../assets/humanhealth.png"
 import { IoIosArrowDown } from "react-icons/io";
 import { IoIosArrowUp } from "react-icons/io";
 import { NavLink } from 'react-router-dom';
-import ChatStart from './ChatStart';
 
 
 const PatientDashboard = () => {
