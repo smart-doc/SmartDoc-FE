@@ -10,6 +10,11 @@ import Recording from './pages/patient/Recording';
 import Transcribing from './pages/patient/Transcribing';
 import CreateAccount from './pages/CreateAccount';
 import VerifyEmail from './pages/VerifyEmail';
+import PersonalInfo from './pages/PersonalInfo';
+import OnboardingForm from './pages/ContactFrom';
+import EmergencyForm from './pages/EmergencyForm';
+import HealthProfile from './pages/HealthProfile';
+import SuccessfulPage from './pages/SuccessfulPage';
 
 
 
@@ -20,6 +25,11 @@ function App() {
       <Routes>
         <Route path='/' element={<CreateAccount />} />
         <Route path='/verify-email' element={<VerifyEmail />} />
+        <Route path='/personal-info' element={<PersonalInfo />} />
+        <Route path='/onboarding' element={<OnboardingForm />} />
+        <Route path="/emergency" element={<EmergencyForm />} />
+        <Route path='/healthProfiile' element={<HealthProfile />} />
+        <Route path='/success' element={<SuccessfulPage />} />
         <Route path="/patients" element={<PatientDashboard />} />
         <Route path='/patientsChat' element={<ChatStart />} />
         <Route path="/doctor" element={<DoctorPortal />} />
