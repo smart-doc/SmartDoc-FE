@@ -6,6 +6,7 @@ import NoPage from './pages/NoPage'
 import Navbar from './components/Navbar';
 import Recording from './pages/patient/Recording';
 import Transcribing from './pages/patient/Transcribing';
+import ConfirmTranscription from "./pages/patient/ConfirmTransciption";
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path="/doctor" element={<DoctorPortal />} />
         <Route path="/record" element={<Recording />} />
         <Route path="/transcribing" element={<Transcribing />} />
+        <Route path="/confirm" element={<ConfirmTranscription />} />
         <Route path='*' element={<NoPage />} />
       
       </Routes>

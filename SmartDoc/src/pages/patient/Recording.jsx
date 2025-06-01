@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { FaMicrophone } from 'react-icons/fa';
 import { FiCheck } from 'react-icons/fi';
 import { MdTranslate } from 'react-icons/md';
+import SubNav from '../../components/SubNav';
 
 export default function Recording() {
   const navigate = useNavigate();
@@ -12,12 +13,14 @@ export default function Recording() {
 
   return (
     <div className="flex flex-col h-screen bg-white">
+      <SubNav />
       <div className="flex-1"></div>
 
-      <div className="px-4 pb-4">
+      <div className="px-4 pb-20">
         <div className="flex items-center text-xs text-gray-500 mb-1">
           <MdTranslate className="mr-1 text-sm" />
-          <span>Transcribing recording...</span>
+           <span>Language detected:</span>
+            <span className="text-orange-500 font-medium ml-1">Igbo</span>
         </div>
 
         <div className="flex items-center bg-gray-100 px-3 py-2 rounded-md border border-gray-300">
