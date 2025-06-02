@@ -9,13 +9,15 @@ import SummarySent from './pages/patient/SummarySent';
 import Recording from './pages/patient/Recording';
 import Transcribing from './pages/patient/Transcribing';
 import ConfirmTranscription from "./pages/patient/ConfirmTransciption";
-import CreateAccount from './pages/CreateAccount';
-import VerifyEmail from './pages/VerifyEmail';
-import PersonalInfo from './pages/PersonalInfo';
-import OnboardingForm from './pages/ContactFrom';
-import EmergencyForm from './pages/EmergencyForm';
-import HealthProfile from './pages/HealthProfile';
-import SuccessfulPage from './pages/SuccessfulPage';
+import CreateAccount from './pages/patient/CreateAccount';
+import VerifyEmail from './pages/patient/VerifyEmail';
+import PersonalInfo from './pages/patient/PersonalInfo';
+import OnboardingForm from './pages/patient/ContactFrom';
+import EmergencyForm from './pages/patient/EmergencyForm';
+import HealthProfile from './pages/patient/HealthProfile';
+import SuccessfulPage from './pages/patient/SuccessfulPage';
+import FollowUpChat from './pages/patient/FollowUpChat';
+import NewChat from './pages/patient/NewChat';
 
 
 
@@ -32,7 +34,8 @@ function App() {
         <Route path='/healthProfiile' element={<HealthProfile />} />
         <Route path='/success' element={<SuccessfulPage />} />
         <Route path="/patients" element={<PatientDashboard />} />
-        <Route path='/patientsChat' element={<ChatStart />} />
+        <Route path='/follow' element={<FollowUpChat />} />
+        <Route path='/patientsChat' element={<NewChat />} />
         <Route path="/doctor" element={<DoctorPortal />} />
         <Route path='/summarySent' element={<SummarySent />} />
         <Route path="/record" element={<Recording />} />
