@@ -3,24 +3,22 @@ import SubNav from "../../components/SubNav";
 import { MdAttachFile } from "react-icons/md";
 import { FaMicrophone } from "react-icons/fa";
 
-const ChatComponent = () => {
-  const [message, setMessage] = useState("");
+const ChatComponent = ({ transcript, onConfirm, onCancel }) => {
+  const [message, setMessage] = useState(transcript || "");
   const [buttonsDisabled, setButtonsDisabled] = useState(false);
 
   const confirmTranscription = () => {
-    console.log("Confirmed message:", message);
-    setButtonsDisabled(true);
-  };
+  setButtonsDisabled(true);
+  if (onConfirm) onConfirm(message); // Send transcript up
+};
 
-  const cancelTranscription = () => {
-    console.log("Transcription canceled.");
-    setButtonsDisabled(true);
-  };
+const cancelTranscription = () => {
+  setButtonsDisabled(true);
+  if (onCancel) onCancel(); // Notify parent to discard transcript
+};
 
   return (
     <div className="flex flex-col h-screen bg-white px-6 py-8">
-      <SubNav />
-
       <div className="max-w-xl w-full mx-auto bg-gray-100 p-6 rounded-lg shadow-md mt-8">
         <div className="p-4 bg-gray-200 rounded-md mb-6 text-gray-800 text-lg leading-relaxed">
           <p>
@@ -28,6 +26,8 @@ const ChatComponent = () => {
             I feel feverish. I vomited once this morning after eating and haven't had much appetite.
             No cough or catarrh. I feel weak and tired."
           </p>
+
+          <p>{transcript}</p>
         </div>
 
         <div className="flex justify-between mb-6">

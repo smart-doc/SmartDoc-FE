@@ -3,35 +3,35 @@ import { CgAttachment } from 'react-icons/cg';
 import { FiMic } from 'react-icons/fi';
 import { IoMdSend } from 'react-icons/io';
 
-const TextBox = ({ onNext }) => {
+const TextBox = ({ onSend, onVoiceStart }) => {
   const [text, setText] = useState('');
   const [file, setFile] = useState(null);
-  const [voiceText, setVoiceText] = useState('');
 
-  const showSend = text.trim() || file || voiceText.trim();
+  const showSend = text.trim() || file;
 
   const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
+    const selectedFile = e.target.files[0];
+    setFile(selectedFile);
+    onSend({ type: 'file', content: selectedFile.name }); // Or upload it first
+    setFile(null);
   };
 
   const handleSend = () => {
-    console.log({ text, file, voiceText });
-    // Handle sending logic here
-
-    // Reset
+    if (text.trim()) {
+      onSend({ type: 'text', content: text });
+    }
     setText('');
-    setFile(null);
-    setVoiceText('');
   };
 
   return (
     <div className="flex items-center border border-[#ccc] rounded-md px-2 py-3 bg-[#fff]">
-      {/* Hidden file input */}
+      {/* File Upload */}
       <label className="cursor-pointer m-2">
         <CgAttachment />
         <input type="file" onChange={handleFileChange} className="hidden" />
       </label>
 
+      {/* Text Input */}
       <input
         type="text"
         placeholder="Tell us how you're feeling"
@@ -40,12 +40,12 @@ const TextBox = ({ onNext }) => {
         className="border-none outline-none flex-1"
       />
 
-      {/* Microphone - Assume clicking triggers voice recording and sets voiceText */}
-      <button onClick={() => setVoiceText('Simulated voice text')}>
+      {/* Voice Recording */}
+      <button onClick={onVoiceStart}>
         <FiMic className="cursor-pointer m-2" />
       </button>
 
-      {/* Conditional Send Button */}
+      {/* Send Button */}
       {showSend && (
         <button onClick={handleSend}>
           <IoMdSend className="text-black text-xl m-2 cursor-pointer" />
