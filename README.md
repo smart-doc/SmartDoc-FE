@@ -108,7 +108,7 @@ We welcome contributions to SmartDoc! Follow these steps:
 .. Open a pull request with a clear description.
 
 ## Contributors
-- (ulokoblessing32@gmail.com)
+- (https://github.com/Enybliss), (ulokoblessing32@gmail.com)
 - (github.com/Adams99Abubakry), (adamsabubakrsiddique@gmail.com)
 - (github.com/fawwazmak), (fawwazmakinde47@gmail.com)
 
