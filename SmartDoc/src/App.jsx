@@ -41,6 +41,7 @@ function App() {
         <Route path='/patientsChat' element={<NewChat />} />
         <Route path="/verifyHospt" element={<VerifyHospital />} />
         <Route path='/capabilities' element={<UnderstandingCaps />} />
+        <Route path='/HospitalAccount' element={<HospitalAccount />} />
         <Route path='/connectDoc' element={<ConnectDoctor />} />
         <Route path="/successPage" element={<SuccessPage />} />
         <Route path="/doctor" element={<DoctorPortal />} />

@@ -18,7 +18,7 @@ const LandingPage = () => {
   }
 
   const toHospitalSignUp = () => {
-    navigate("/createAccount")
+    navigate("/HospitalAccount")
   }
 
   return (
