@@ -109,8 +109,8 @@ We welcome contributions to SmartDoc! Follow these steps:
 
 ## Contributors
 - (https://github.com/Enybliss), (ulokoblessing32@gmail.com)
-- (github.com/Adams99Abubakry), (adamsabubakrsiddique@gmail.com)
-- (github.com/fawwazmak), (fawwazmakinde47@gmail.com)
+- (https://github.com/Adams99Abubakry), (adamsabubakrsiddique@gmail.com)
+- (https://github.com/fawwazmak), (fawwazmakinde47@gmail.com)
 
 ## License
 This project is licensed under the MIT License. See LICENSE for details.
