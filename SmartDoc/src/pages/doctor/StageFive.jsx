@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const HospitalCapabilitiesForm = () => {
+  const navigate = useNavigate();
   const [hasAccreditations, setHasAccreditations] = useState(false);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    navigate("/connectDoc")
+  }
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white px-4">
+    <form onSubmit={handleSubmit} className="min-h-screen flex items-center justify-center bg-white px-4">
       <div className="max-w-md w-full space-y-6">
         <div>
           <p className="text-sm text-gray-700 font-medium">Step 3 of 4</p>
@@ -16,7 +23,7 @@ const HospitalCapabilitiesForm = () => {
           </p>
         </div>
 
-        <form className="space-y-4">
+        <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700">Specialties</label>
             <select className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white focus:ring-2 focus:ring-black focus:outline-none">
@@ -79,7 +86,7 @@ const HospitalCapabilitiesForm = () => {
               />
             </button>
           </div>
-        </form>
+        </div>
 
         <button
           type="submit"
@@ -88,7 +95,7 @@ const HospitalCapabilitiesForm = () => {
           Continue
         </button>
       </div>
-    </div>
+    </form>
   );
 };
 

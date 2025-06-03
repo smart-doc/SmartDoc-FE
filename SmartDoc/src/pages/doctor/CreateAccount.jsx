@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { FaEyeSlash } from "react-icons/fa6";
+import { FaEye } from "react-icons/fa";
 
 const HospitalOnboarding = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -53,7 +55,8 @@ const HospitalOnboarding = () => {
                 className="absolute inset-y-0 right-0 px-3 flex items-center text-gray-500"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                👁
+                <FaEye className={`${showPassword ? 'hidden' : 'block'}`} />
+                <FaEyeSlash className={`${showPassword ? 'block' : 'hidden'}`} />
               </button>
             </div>
           </div>
