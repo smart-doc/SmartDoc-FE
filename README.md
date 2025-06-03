@@ -109,8 +109,8 @@ We welcome contributions to SmartDoc! Follow these steps:
 
 ## Contributors
 - [@collaborator1](ulokoblessing32@gmail.com)
-- [@collaborator2]((github.com/Adams99Abubakry))
-- [@collaborator3]([fawwazmakinde47@gmail.com](https://github.com/fawwazmak))
+- [@collaborator2](github.com/Adams99Abubakry)
+- [@collaborator3](github.com/fawwazmak)
 
 ## License
 This project is licensed under the MIT License. See LICENSE for details.
