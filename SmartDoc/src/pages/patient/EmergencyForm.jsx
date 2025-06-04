@@ -2,19 +2,40 @@ import React, { useState } from "react";
 
 const EmergencyForm = ({ initialData = {}, onNext }) => {
   const [form, setForm] = useState({
-    emergencyName: '',
-    emergencyNumber: '',
-    relationship: '',
+    emergencyContactName: '',
+    emergencyContactPhoneNumber: '',
+    emergencyContactRelationship: '',
     ...initialData,
   });
+  const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: '' }));
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setErrors({});
+
+    // Validation
+    const newErrors = {};
+    if (!form.emergencyContactName.trim()) newErrors.emergencyContactName = 'Emergency contact name is required';
+    if (!form.emergencyContactPhoneNumber.trim()) {
+      newErrors.emergencyContactPhoneNumber = 'Emergency phone number is required';
+    } else if (form.emergencyContactPhoneNumber.length !== 11) {
+      newErrors.emergencyContactPhoneNumber = 'Phone number must be 11 digits';
+    }
+    if (!form.emergencyContactRelationship) newErrors.emergencyContactRelationship = 'Relationship is required';
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
     onNext(form);
   };
 
@@ -28,38 +49,41 @@ const EmergencyForm = ({ initialData = {}, onNext }) => {
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Emergency contact name</label>
+            {errors.emergencyContactName && <div className="text-red-500 text-sm mb-1">{errors.emergencyContactName}</div>}
             <input
               required
-              name="emergencyName"
-              value={form.emergencyName}
+              name="emergencyContactName"
+              value={form.emergencyContactName}
               onChange={handleChange}
               type="text"
               placeholder="Enter full name"
-              className="w-full border border-gray-300 rounded-sm p-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+              className={`w-full border rounded-sm p-2 text-sm focus:outline-none focus:ring-2 focus:ring-black ${errors.emergencyContactName ? 'border-red-500' : 'border-gray-300'}`}
             />
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Emergency phone number</label>
+            {errors.emergencyContactPhoneNumber && <div className="text-red-500 text-sm mb-1">{errors.emergencyContactPhoneNumber}</div>}
             <input
               required
-              name="emergencyNumber"
-              value={form.emergencyNumber}
+              name="emergencyContactPhoneNumber"
+              value={form.emergencyContactPhoneNumber}
               onChange={handleChange}
               type="text"
               placeholder="Enter emergency phone number"
-              className="w-full border border-gray-300 rounded-sm p-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+              className={`w-full border rounded-sm p-2 text-sm focus:outline-none focus:ring-2 focus:ring-black ${errors.emergencyContactPhoneNumber ? 'border-red-500' : 'border-gray-300'}`}
             />
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Relationship to you</label>
+            {errors.emergencyContactRelationship && <div className="text-red-500 text-sm mb-1">{errors.emergencyContactRelationship}</div>}
             <select
               required
-              name="relationship"
-              value={form.relationship}
+              name="emergencyContactRelationship"
+              value={form.emergencyContactRelationship}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded-sm p-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+              className={`w-full border rounded-sm p-2 text-sm focus:outline-none focus:ring-2 focus:ring-black ${errors.emergencyContactRelationship ? 'border-red-500' : 'border-gray-300'}`}
             >
               <option disabled value="">Select relationship</option>
               <option>Father</option>

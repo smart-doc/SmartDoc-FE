@@ -8,14 +8,35 @@ const ContactForm = ({ initialData = {}, onNext }) => {
     address: '',
     ...initialData,
   });
+  const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: '' }));
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setErrors({});
+
+    const newErrors = {};
+    if (!form.phoneNumber.trim()) {
+      newErrors.phoneNumber = 'Phone number is required';
+    } else if (form.phoneNumber.length !== 11) {
+      newErrors.phoneNumber = 'Phone number must be 11 digits';
+    }
+    if (!form.state) newErrors.state = 'State is required';
+    if (!form.city.trim()) newErrors.city = 'City is required';
+    if (!form.address.trim()) newErrors.address = 'Address is required';
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
     onNext(form);
   };
 
@@ -31,6 +52,7 @@ const ContactForm = ({ initialData = {}, onNext }) => {
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Phone number</label>
+            {errors.phoneNumber && <div className="text-red-500 text-sm mb-1">{errors.phoneNumber}</div>}
             <input
               required
               name="phoneNumber"
@@ -38,29 +60,64 @@ const ContactForm = ({ initialData = {}, onNext }) => {
               onChange={handleChange}
               type="tel"
               placeholder="Enter your phone number"
-              className="w-full border border-gray-300 rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+              className={`w-full border rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-black ${errors.phoneNumber ? 'border-red-500' : 'border-gray-300'}`}
             />
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">State where you live</label>
+            {errors.state && <div className="text-red-500 text-sm mb-1">{errors.state}</div>}
             <select
               required
               name="state"
               value={form.state}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+              className={`w-full border rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-black ${errors.state ? 'border-red-500' : 'border-gray-300'}`}
             >
               <option value="" disabled>Select your state</option>
-              <option value="Lagos">Lagos</option>
-              <option value="Abuja">Abuja</option>
+              <option value="Abia">Abia</option>
+              <option value="Adamawa">Adamawa</option>
+              <option value="Akwa Ibom">Akwa Ibom</option>
+              <option value="Anambra">Anambra</option>
+              <option value="Bauchi">Bauchi</option>
+              <option value="Bayelsa">Bayelsa</option>
+              <option value="Benue">Benue</option>
+              <option value="Borno">Borno</option>
+              <option value="Cross River">Cross River</option>
+              <option value="Delta">Delta</option>
+              <option value="Ebonyi">Ebonyi</option>
+              <option value="Edo">Edo</option>
+              <option value="Ekiti">Ekiti</option>
+              <option value="Enugu">Enugu</option>
+              <option value="Gombe">Gombe</option>
+              <option value="Imo">Imo</option>
+              <option value="Jigawa">Jigawa</option>
+              <option value="Kaduna">Kaduna</option>
               <option value="Kano">Kano</option>
-              <option value="Others">Other</option>
+              <option value="Katsina">Katsina</option>
+              <option value="Kebbi">Kebbi</option>
+              <option value="Kogi">Kogi</option>
+              <option value="Kwara">Kwara</option>
+              <option value="Lagos">Lagos</option>
+              <option value="Nasarawa">Nasarawa</option>
+              <option value="Niger">Niger</option>
+              <option value="Ogun">Ogun</option>
+              <option value="Ondo">Ondo</option>
+              <option value="Osun">Osun</option>
+              <option value="Oyo">Oyo</option>
+              <option value="Plateau">Plateau</option>
+              <option value="Rivers">Rivers</option>
+              <option value="Sokoto">Sokoto</option>
+              <option value="Taraba">Taraba</option>
+              <option value="Yobe">Yobe</option>
+              <option value="Zamfara">Zamfara</option>
+              <option value="FCT">Federal Capital Territory (Abuja)</option>
             </select>
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
+            {errors.city && <div className="text-red-500 text-sm mb-1">{errors.city}</div>}
             <input
               required
               name="city"
@@ -68,12 +125,13 @@ const ContactForm = ({ initialData = {}, onNext }) => {
               onChange={handleChange}
               type="text"
               placeholder="Enter your city"
-              className="w-full border border-gray-300 rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+              className={`w-full border rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-black ${errors.city ? 'border-red-500' : 'border-gray-300'}`}
             />
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Your exact address</label>
+            {errors.address && <div className="text-red-500 text-sm mb-1">{errors.address}</div>}
             <input
               required
               name="address"
@@ -81,7 +139,7 @@ const ContactForm = ({ initialData = {}, onNext }) => {
               onChange={handleChange}
               type="text"
               placeholder="Enter your address"
-              className="w-full border border-gray-300 rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+              className={`w-full border rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-black ${errors.address ? 'border-red-500' : 'border-gray-300'}`}
             />
           </div>
         </div>

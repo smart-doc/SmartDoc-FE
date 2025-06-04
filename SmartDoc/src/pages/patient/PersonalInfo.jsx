@@ -8,15 +8,33 @@ const PersonalInfo = ({ initialData = {}, onNext }) => {
     gender: '',
     ...initialData,
   });
+  const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: '' }));
+    }
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent page reload
-    onNext(form); // Send data to parent
+    e.preventDefault();
+    setErrors({});
+
+    // Basic validation
+    const newErrors = {};
+    if (!form.firstName.trim()) newErrors.firstName = 'First name is required';
+    if (!form.lastName.trim()) newErrors.lastName = 'Last name is required';
+    if (!form.dob) newErrors.dob = 'Date of birth is required';
+    if (!form.gender) newErrors.gender = 'Gender is required';
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
+    onNext(form);
   };
 
   return (
@@ -29,6 +47,7 @@ const PersonalInfo = ({ initialData = {}, onNext }) => {
         </p>
 
         <label className="font-semibold" htmlFor="firstName">First name</label>
+        {errors.firstName && <div className="text-red-500 text-sm mb-1">{errors.firstName}</div>}
         <input
           value={form.firstName}
           onChange={handleChange}
@@ -37,10 +56,11 @@ const PersonalInfo = ({ initialData = {}, onNext }) => {
           id="firstName"
           type="text"
           placeholder="Enter your first name"
-          className="w-full border p-2 mb-4 rounded"
+          className={`w-full border p-2 mb-4 rounded ${errors.firstName ? 'border-red-500' : ''}`}
         />
 
         <label className="font-semibold" htmlFor="lastName">Last name</label>
+        {errors.lastName && <div className="text-red-500 text-sm mb-1">{errors.lastName}</div>}
         <input
           value={form.lastName}
           onChange={handleChange}
@@ -49,10 +69,11 @@ const PersonalInfo = ({ initialData = {}, onNext }) => {
           id="lastName"
           type="text"
           placeholder="Enter your last name"
-          className="w-full border p-2 mb-4 rounded"
+          className={`w-full border p-2 mb-4 rounded ${errors.lastName ? 'border-red-500' : ''}`}
         />
 
         <label className="font-semibold" htmlFor="dob">Date of birth</label>
+        {errors.dob && <div className="text-red-500 text-sm mb-1">{errors.dob}</div>}
         <input
           value={form.dob}
           onChange={handleChange}
@@ -60,17 +81,18 @@ const PersonalInfo = ({ initialData = {}, onNext }) => {
           name="dob"
           id="dob"
           type="date"
-          className="w-full border p-2 mb-4 rounded"
+          className={`w-full border p-2 mb-4 rounded ${errors.dob ? 'border-red-500' : ''}`}
         />
 
         <label className="font-semibold" htmlFor="gender">Gender</label>
+        {errors.gender && <div className="text-red-500 text-sm mb-1">{errors.gender}</div>}
         <select
           value={form.gender}
           onChange={handleChange}
           required
           name="gender"
           id="gender"
-          className="w-full border p-2 mb-6 rounded"
+          className={`w-full border p-2 mb-6 rounded ${errors.gender ? 'border-red-500' : ''}`}
         >
           <option value="">Select your gender</option>
           <option value="Male">Male</option>

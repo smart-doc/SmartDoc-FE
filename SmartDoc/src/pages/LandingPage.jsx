@@ -59,7 +59,7 @@ const LandingPage = () => {
             className="absolute bottom-0 w-full h-1/2 bg-white rounded-t-2xl shadow-lg px-6 py-8 z-10"
           >
             <h1>Create an account</h1>
-            <p onClick={toPatientsSignUp} className='cursor-pointer text-blue-300'>Sign up as a Patient</p>
+            <p onClick={toPatientsSignUp} className='cursor-pointer text-blue-300'>Sign up as a User</p>
             <p onClick={toHospitalSignUp} className='cursor-pointer text-blue-300'>Sign up as a doctor</p>
           </motion.div>
         )}
