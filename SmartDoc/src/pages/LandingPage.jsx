@@ -2,6 +2,10 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Logo from '../assets/logo.png';
 import { useNavigate } from 'react-router-dom';
+import { GoPerson } from "react-icons/go";
+import { RiHospitalLine } from "react-icons/ri";
+
+
 
 const LandingPage = () => {
   const [showOnboarding, setShowOnboarding] = useState(false);
@@ -60,11 +64,26 @@ const LandingPage = () => {
             exit="exit"
             variants={panelVariants}
             transition={{ duration: 1 }}
-            className="absolute bottom-0 w-full h-1/2 bg-white rounded-t-2xl shadow-lg px-6 py-8 z-10"
+            className="absolute bottom-0 w-full h-1/2 bg-white rounded-t-5xl shadow-lg px-6 py-8 z-10"
           >
-            <h1>Create an account</h1>
-            <p onClick={toPatientsSignUp} className='cursor-pointer text-blue-300'>Sign up as a User</p>
-            <p onClick={toHospitalSignUp} className='cursor-pointer text-blue-300'>Sign up as a Doctor</p>
+            <h1 className='text-xl font-semibold'>Create an account</h1>
+            <div className='flex flex-col gap-2 mt-3'>
+              <div onClick={toPatientsSignUp} className='cursor-pointer text-black flex items-center gap-3'>
+                <GoPerson className='block' />
+                <div className='flex flex-col '>
+                  <p className='font-semibold text-xl'>Patient</p>
+                  <p>I want to get care from doctors fast</p>
+                </div>
+              </div>
+              <hr />
+              <div onClick={toHospitalSignUp} className='cursor-pointer text-black flex items-center gap-3'>
+                <RiHospitalLine className='block' />
+                <div className='flex flex-col '>
+                  <p className='font-semibold text-xl'>Hospital</p>
+                  <p>I want to manage and maximize our staff strength</p>
+                </div>
+              </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
