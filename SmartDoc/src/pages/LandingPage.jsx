@@ -13,6 +13,10 @@ const LandingPage = () => {
     exit: { y: '100%' },
   };
 
+  const toLogin = () => {
+    navigate("/login")
+  }
+
   const toPatientsSignUp = () => {
     navigate("/create")
   }
@@ -41,7 +45,7 @@ const LandingPage = () => {
             Get Started
           </button>
           <p className="text-center text-sm mt-4 text-gray-700">
-            Have an account? <span className="font-semibold underline cursor-pointer">Login instead</span>
+            Have an account? <span onClick={toLogin} className="font-semibold underline cursor-pointer">Login instead</span>
           </p>
         </div>
       </div>

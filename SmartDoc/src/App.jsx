@@ -76,14 +76,16 @@
 import './App.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PatientDashboard from './pages/patient/PatientDashboard';
-import DoctorPortal from './pages/doctor/DoctorPortal';
-import HospitalAccount from "./pages/doctor/CreateAccount";
-import VerifyHospitalEmail from "./pages/doctor/VerifyEmail"
-import HospitAccountContd from "./pages/doctor/ContinueAccountCreation";
-import VerifyHospital from './pages/doctor/VerifyHospital';
-import UnderstandingCaps from "./pages/doctor/StageFive";
-import ConnectDoctor from './pages/doctor/ConnectDoctor';
-import SuccessPage from "./pages/doctor/SuccessPage"
+import DoctorPortal from './pages/hospital/DoctorPortal';
+import HospitalAccount from "./pages/hospital/CreateAccount";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import VerifyHospitalEmail from "./pages/hospital/VerifyEmail"
+import HospitAccountContd from "./pages/hospital/ContinueAccountCreation";
+import VerifyHospital from './pages/hospital/VerifyHospital';
+import UnderstandingCaps from "./pages/hospital/StageFive";
+import ConnectDoctor from './pages/hospital/ConnectDoctor';
+import SuccessPage from "./pages/hospital/SuccessPage"
 import NoPage from './pages/NoPage'
 import Navbar from './components/Navbar';
 import SummarySent from './pages/patient/SummarySent';
@@ -104,6 +106,7 @@ import Account from './pages/patient/Account';
 import { AuthProvider } from "./context/AuthContext";
 import SetUpAxiosInterceptors from "./utils/AxiosConfig";
 import { useEffect } from "react";
+import Login from './pages/Login';
 
 export default function App() {
 
@@ -127,8 +130,21 @@ export default function App() {
           <Route path="/successPage" element={<SuccessPage />} />
           <Route path="/doctor" element={<DoctorPortal />} />
           <Route path="/confirm" element={<ConfirmTranscription />} />
+          <Route path="/login" element={<Login />} />
           <Route path='*' element={<NoPage />} />
         </Routes>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
       </AuthProvider>
     </BrowserRouter>
   )
