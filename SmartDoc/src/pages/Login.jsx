@@ -33,7 +33,7 @@ const Login = () => {
 
       // Step 2: Fetch signed-in user profile
       const profileResponse = await axios.get(
-        'https://smartdoc-p1ca.onrender.com/profile/get/SignedinUserProfile',
+        'https://smartdoc-p1ca.onrender.com/api/v1/user/profile/get/SignedinUserProfile',
         {
           headers: { Authorization: `Bearer ${token}` },
         }

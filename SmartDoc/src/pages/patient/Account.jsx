@@ -54,7 +54,7 @@ const Account = () => {
         <VerifyEmailPatient
           initialData={formData.emailVerification}
           onNext={(data) => {
-            updateFormData('emailVerification', data);
+            updateFormData('verifyEmailPatient', data);
             setStage(STAGES.PERSONALINFO);
           }}
         />
