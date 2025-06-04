@@ -60,7 +60,7 @@ const LandingPage = () => {
           >
             <h1>Create an account</h1>
             <p onClick={toPatientsSignUp} className='cursor-pointer text-blue-300'>Sign up as a User</p>
-            <p onClick={toHospitalSignUp} className='cursor-pointer text-blue-300'>Sign up as a doctor</p>
+            <p onClick={toHospitalSignUp} className='cursor-pointer text-blue-300'>Sign up as a Doctor</p>
           </motion.div>
         )}
       </AnimatePresence>
