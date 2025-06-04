@@ -108,9 +108,11 @@ We welcome contributions to SmartDoc! Follow these steps:
 .. Open a pull request with a clear description.
 
 ## Contributors
-- (https://github.com/Enybliss), (ulokoblessing32@gmail.com)
-- (https://github.com/Adams99Abubakry), (adamsabubakrsiddique@gmail.com)
-- (https://github.com/fawwazmak), (fawwazmakinde47@gmail.com)
+- (https://github.com/Enybliss), (ulokoblessing32@gmail.com) - Frontend Developer
+- (https://github.com/Adams99Abubakry), (adamsabubakrsiddique@gmail.com) - Frontend Developer
+- (https://github.com/fawwazmak), (fawwazmakinde47@gmail.com) - Frontend Developer
+- (https://github.com/Chumexxx), (obasyemeka@gmail.com) - Frontend Developer
+- (kingsleychijioke824@gmail.com) - UI/UX Designer
 
 ## License
 This project is licensed under the MIT License. See LICENSE for details.
