@@ -1,22 +1,70 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import successImage from "../../assets/successImage.png"
-
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import successImage from '../../assets/successImage.png';
 
 const SuccesPage = () => {
   const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const toDashBoard = () => {
-    navigate("/doctor")
-  }
-  
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          throw new Error('No authentication token found');
+        }
+
+        const response = await axios.get(
+          'https://smartdoc-p1ca.onrender.com/profile/get/SignedinUserProfile',
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+
+        setUser(response.data);
+      } catch (error) {
+        const errorMsg = error.response?.data?.error || 'Failed to fetch user profile';
+        toast.error(errorMsg);
+        // Optionally redirect to login if token is invalid
+        if (error.response?.status === 401) {
+          navigate('/login');
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserProfile();
+  }, [navigate]);
+
+  const toDashboard = () => {
+    if (!user) return;
+
+    const userType = user.type;
+    const userRole = user.role?.name;
+
+    if (userType === 'Patient' || userRole === 'Patient') {
+      navigate('/patients');
+    } else if (userType === 'Doctor' || userRole === 'Doctor') {
+      navigate('/doctor');
+    } else if (userType === 'Hospital' || userRole === 'Hospital' || userRole === 'Admin') {
+      navigate('/admin');
+    } else {
+      toast.error('Unknown user type or role');
+      navigate('/login');
+    }
+  };
+
   return (
     <div className="flex flex-col items-center justify-between min-h-screen bg-white px-6 py-10 text-center">
       <div className="flex flex-col items-center justify-center flex-1">
         <img src={successImage} alt="Chatbot high five" className="w-48 h-48 mb-8" />
 
         <h1 className="text-2xl font-bold text-gray-900 mb-3">
-          Welcome aboard! 
+          {loading ? 'Welcome aboard!' : `Welcome aboard, ${user?.hospitalName || user?.firstName || 'User'}!`}
         </h1>
 
         <p className="text-sm text-gray-600">
@@ -24,7 +72,15 @@ const SuccesPage = () => {
         </p>
       </div>
 
-      <button onClick={toDashBoard} className="w-full bg-black text-white py-3 rounded-sm font-semibold shadow-md hover:bg-gray-800 transition">Go to dashboard</button>
+      <button
+        onClick={toDashboard}
+        disabled={loading || !user}
+        className={`w-full bg-black text-white py-3 rounded-sm font-semibold shadow-md transition ${
+          loading || !user ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-800'
+        }`}
+      >
+        Go to dashboard
+      </button>
     </div>
   );
 };

@@ -54,14 +54,20 @@ const CreateAccount = ({ onNext }) => {
       const data = await response.json();
 
       if (!response.ok) {
-        if (data.error) {
-          if (data.error.includes('email')) {
-            setErrors(prev => ({ ...prev, email: data.error }));
-          } else if (data.error.includes('Password')) {
-            setErrors(prev => ({ ...prev, password: data.error }));
+        // Handle various error formats from the backend
+        const errorMessage = data.error || data.message || 'Registration failed';
+        
+        if (typeof errorMessage === 'string') {
+          if (errorMessage.toLowerCase().includes('email')) {
+            setErrors({ email: errorMessage });
+          } else if (errorMessage.toLowerCase().includes('password')) {
+            setErrors({ password: errorMessage });
           } else {
-            setErrors(prev => ({ ...prev, general: data.error }));
+            setErrors({ general: errorMessage });
           }
+        } else if (typeof errorMessage === 'object') {
+          // Handle object-based errors, e.g., { email: "Email is required" }
+          setErrors(errorMessage);
         }
         return;
       }

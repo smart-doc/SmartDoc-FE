@@ -80,7 +80,6 @@ import DoctorPortal from './pages/hospital/DoctorPortal';
 import HospitalAccount from "./pages/hospital/CreateAccount";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import VerifyHospitalEmail from "./pages/hospital/VerifyEmail"
 import HospitAccountContd from "./pages/hospital/ContinueAccountCreation";
 import VerifyHospital from './pages/hospital/VerifyHospital';
 import UnderstandingCaps from "./pages/hospital/StageFive";
@@ -93,7 +92,7 @@ import Recording from './pages/patient/Recording';
 import Transcribing from './pages/patient/Transcribing';
 import ConfirmTranscription from "./pages/patient/ConfirmTransciption";
 import CreateAccount from './pages/patient/CreateAccount';
-import VerifyPatientEmail from './pages/patient/VerifyEmail';
+import VerifyEmailPatient from './pages/patient/VerifyEmailPatient';
 import PersonalInfo from './pages/patient/PersonalInfo';
 import OnboardingForm from './pages/patient/ContactFrom';
 import EmergencyForm from './pages/patient/EmergencyForm';
@@ -107,6 +106,8 @@ import { AuthProvider } from "./context/AuthContext";
 import SetUpAxiosInterceptors from "./utils/AxiosConfig";
 import { useEffect } from "react";
 import Login from './pages/Login';
+import VerifyEmailHospital from './pages/hospital/VerifyEmailHospital';
+import HospitalDetailsForm from './pages/hospital/ContinueAccountCreation';
 
 export default function App() {
 
@@ -123,15 +124,19 @@ export default function App() {
           <Route path="/patients" element={<PatientDashboard />} />
           <Route path='/follow' element={<FollowUpChat />} />
           <Route path='/patientsChat' element={<NewChat />} />
-          <Route path="/verifyHospt" element={<VerifyHospital />} />
+          <Route path='/verify-email-patient' element={<VerifyEmailPatient/>}/>
+          <Route path="/verify-hospital" element={<VerifyHospital />} />
           <Route path='/capabilities' element={<UnderstandingCaps />} />
           <Route path='/HospitalAccount' element={<HospitalAccount />} />
-          <Route path='/connectDoc' element={<ConnectDoctor />} />
+          <Route path='/connect-doctor' element={<ConnectDoctor />} />
           <Route path="/successPage" element={<SuccessPage />} />
           <Route path="/doctor" element={<DoctorPortal />} />
           <Route path="/confirm" element={<ConfirmTranscription />} />
           <Route path="/login" element={<Login />} />
+          <Route path='/verify-email-hospital' element={<VerifyEmailHospital/>}/>
+          <Route path='/hospital-details' element={<HospitalDetailsForm/>}/>
           <Route path='*' element={<NoPage />} />
+
         </Routes>
         <ToastContainer
           position="top-right"

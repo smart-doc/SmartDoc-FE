@@ -109,7 +109,7 @@ const HospitalOnboarding = () => {
       localStorage.setItem('user', JSON.stringify(user));
       localStorage.setItem('hospitalData', JSON.stringify(formData));
       toast.success('Verification OTP sent to your email!');
-      navigate('/verify-email');
+      navigate('/verify-email-hospital');
     } catch (error) {
       const errorMsg = error.response?.data?.error || 'Registration failed';
       if (errorMsg.includes('email')) {

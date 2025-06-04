@@ -1,18 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
-const VerifyEmail = ({ initialData = {}, onNext }) => {
-  const [timer, setTimer] = useState(1800); 
+const VerifyEmailHospital = () => {
+  const [timer, setTimer] = useState(1800); // 30 minutes in seconds
   const [otp, setOtp] = useState(new Array(6).fill(''));
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
-  const [resendLoading, setResendLoading] = useState(false);
   const [email, setEmail] = useState('');
+  const inputRefs = useRef([]);
+  const navigate = useNavigate();
 
-
-
-  const inputRefs = React.useRef([]);
-
-  React.useEffect(() => {
+  useEffect(() => {
     const countdown = setInterval(() => {
       setTimer((prev) => (prev > 0 ? prev - 1 : 0));
     }, 1000);
@@ -20,8 +19,8 @@ const VerifyEmail = ({ initialData = {}, onNext }) => {
   }, []);
 
   useEffect(() => {
-    const storedData = JSON.parse(localStorage.getItem("userData")) || {};
-    setEmail(storedData.email || "");
+    const storedUser = JSON.parse(localStorage.getItem('user')) || {};
+    setEmail(storedUser.email || '');
   }, []);
 
   const handleChange = (value, index) => {
@@ -34,10 +33,10 @@ const VerifyEmail = ({ initialData = {}, onNext }) => {
     if (value && index < otp.length - 1) {
       inputRefs.current[index + 1]?.focus();
     }
-    
+
     // Clear errors when user starts typing
     if (errors.otp) {
-      setErrors(prev => ({ ...prev, otp: '' }));
+      setErrors((prev) => ({ ...prev, otp: '' }));
     }
   };
 
@@ -67,7 +66,7 @@ const VerifyEmail = ({ initialData = {}, onNext }) => {
         },
         body: JSON.stringify({
           email,
-          otp: enteredOtp
+          otp: enteredOtp,
         }),
       });
 
@@ -75,12 +74,15 @@ const VerifyEmail = ({ initialData = {}, onNext }) => {
 
       if (!response.ok) {
         setErrors({ otp: data.error || data.message || 'Invalid OTP' });
+        toast.error(data.error || data.message || 'Invalid OTP');
         return;
       }
 
-      onNext({ otp: enteredOtp, verified: true });
+      toast.success('Email verified successfully!');
+      navigate('/hospital-details'); // Navigate to /hospital-details on success
     } catch (error) {
       setErrors({ otp: 'Network error. Please try again.' });
+      toast.error('Network error. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -99,13 +101,13 @@ const VerifyEmail = ({ initialData = {}, onNext }) => {
       <div>
         <h2 className="text-xl font-semibold mb-1 text-center">Verify your email</h2>
         <p className="text-sm text-gray-500 mb-6 text-center">
-          We sent an OTP to {initialData.email}. Enter the pin to confirm your email. If you do not see the email, check your spam folder
+          We sent an OTP to {email || 'your email'}. Enter the pin to confirm your email. If you do not see the email, check your spam folder
         </p>
-        
+
         {errors.otp && (
           <div className="text-red-500 text-sm mb-4 text-center">{errors.otp}</div>
         )}
-        
+
         <div className="flex justify-between gap-2 mb-6">
           {otp.map((digit, i) => (
             <input
@@ -117,7 +119,7 @@ const VerifyEmail = ({ initialData = {}, onNext }) => {
               onChange={(e) => handleChange(e.target.value, i)}
               onKeyDown={(e) => handleKeyDown(e, i)}
               ref={(el) => (inputRefs.current[i] = el)}
-              className={`w-10 h-10 text-center border rounded text-lg ${errors.otp ? 'border-red-500' : ''}`}
+              className={`w-10 h-10 text-center border rounded text-lg ${errors.otp ? 'border-red-500' : 'border-gray-300'}`}
               required
             />
           ))}
@@ -139,4 +141,4 @@ const VerifyEmail = ({ initialData = {}, onNext }) => {
   );
 };
 
-export default VerifyEmail;
+export default VerifyEmailHospital;

@@ -96,7 +96,7 @@ const ConnectDoctor = () => {
       );
       toast.success('Profile updated successfully!');
       localStorage.removeItem('hospitalData'); // Clean up
-      navigate('/success');
+      navigate('/successPage');
     } catch (error) {
       const errorMsg = error.response?.data?.error || 'Failed to update profile';
       setError(errorMsg);
@@ -117,7 +117,7 @@ const ConnectDoctor = () => {
     });
 
     axios
-      .put(
+      .post(
         'https://smartdoc-p1ca.onrender.com/api/v1/user/profile/update',
         formData,
         {

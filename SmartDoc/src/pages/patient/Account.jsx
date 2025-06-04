@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import CreateAccount from './CreateAccount';
-import VerifyEmail from './VerifyEmail';
+import VerifyEmailPatient from './VerifyEmailPatient';
 import PersonalInfo from './PersonalInfo';
 import ContactForm from './ContactFrom';
 import EmergencyForm from './EmergencyForm';
@@ -9,7 +9,7 @@ import HealthProfile from './HealthProfile';
 
 const STAGES = {
   START: 'start',
-  EMAILVERIFICATION: 'verifyEmail',
+  EMAILVERIFICATION: 'verifyEmailPatient',
   PERSONALINFO: 'personalInfo',
   CONTACTINFO: 'contactInfo',
   EMERGENCY: 'emergency',
@@ -51,7 +51,7 @@ const Account = () => {
       )}
 
       {stage === STAGES.EMAILVERIFICATION && (
-        <VerifyEmail
+        <VerifyEmailPatient
           initialData={formData.emailVerification}
           onNext={(data) => {
             updateFormData('emailVerification', data);
