@@ -1,22 +1,21 @@
 import { useState } from 'react';
-import { FaEyeSlash, FaEye } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom';
 
-const CreateAccount = ({ onNext }) => {
+const PatientSignUpStep1 = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
-  
   const [form, setForm] = useState({
     email: '',
     password: '',
   });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
-
     if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: '' }));
+      setErrors((prev) => ({ ...prev, [name]: '' }));
     }
   };
 
@@ -34,7 +33,7 @@ const CreateAccount = ({ onNext }) => {
         body: JSON.stringify({
           email: form.email,
           password: form.password,
-          firstName: 'temp',
+          firstName: 'temp', 
           lastName: 'temp',
           phoneNumber: '00000000000',
           dateOfBirth: '2000-01-01',
@@ -47,16 +46,13 @@ const CreateAccount = ({ onNext }) => {
           emergencyContactRelationship: 'Other',
           bloodGroup: 'O+',
           height_CM: '170',
-          weight_KG: '70'
+          weight_KG: '70',
         }),
       });
 
-      const data = await response.json();
-
       if (!response.ok) {
-        // Handle various error formats from the backend
+        const data = await response.json().catch(() => ({}));
         const errorMessage = data.error || data.message || 'Registration failed';
-        
         if (typeof errorMessage === 'string') {
           if (errorMessage.toLowerCase().includes('email')) {
             setErrors({ email: errorMessage });
@@ -66,25 +62,41 @@ const CreateAccount = ({ onNext }) => {
             setErrors({ general: errorMessage });
           }
         } else if (typeof errorMessage === 'object') {
-          // Handle object-based errors, e.g., { email: "Email is required" }
           setErrors(errorMessage);
         }
+        setLoading(false);
+        return;
+      }
+
+      const data = await response.json();
+      if (!data.token || !data.user?._id) {
+        setErrors({ general: 'Invalid response from server. Missing token or user ID.' });
+        setLoading(false);
         return;
       }
 
       const registrationData = {
-        ...form,
-        token: data.token,
-        userId: data.user._id
+        account: {
+          email: form.email,
+          password: form.password,
+          token: data.token,
+          userId: data.user._id,
+        },
       };
 
-      localStorage.setItem("userData", JSON.stringify(registrationData));
-      localStorage.setItem("token", data.token);
-      
-      console.log('Token stored successfully:', data.token ? 'Yes' : 'No');
+      try {
+        localStorage.setItem('formData', JSON.stringify(registrationData));
+        localStorage.setItem('token', data.token);
+      } catch (error) {
+        console.error('localStorage error:', error);
+        setErrors({ general: 'Failed to save data locally. Please try again.' });
+        setLoading(false);
+        return;
+      }
 
-      onNext(registrationData);
+      navigate('/patientSignUpStep2');
     } catch (error) {
+      console.error('Error in handleSubmit:', error);
       setErrors({ general: 'Network error. Please check your connection and try again.' });
     } finally {
       setLoading(false);
@@ -145,4 +157,4 @@ const CreateAccount = ({ onNext }) => {
   );
 };
 
-export default CreateAccount;
+export default PatientSignUpStep1;

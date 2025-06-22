@@ -4,7 +4,7 @@ import { HiSparkles } from 'react-icons/hi';
 import heroImage from '../../assets/humanhealth.png';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext'; // Adjust path
+import { useAuth } from '../../context/AuthContext';
 import { toast } from 'react-toastify';
 
 const PatientDashboard = () => {
@@ -24,17 +24,25 @@ const PatientDashboard = () => {
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
+      console.log('PatientDashboard: Redirecting unauthenticated user');
       toast.error('Please sign in to access your dashboard.');
-      navigate('/');
+      navigate('/login', { replace: true });
     }
   }, [isAuthenticated, isLoading, navigate]);
 
   if (isLoading) {
-    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
+          <p className="mt-4">Loading...</p>
+        </div>
+      </div>
+    );
   }
 
   if (!isAuthenticated || !user) {
-    return null; // Prevent rendering until redirect
+    return null;
   }
 
   return (

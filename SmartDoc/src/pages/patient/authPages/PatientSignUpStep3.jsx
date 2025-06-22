@@ -1,20 +1,21 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const PersonalInfo = ({ initialData = {}, onNext }) => {
+const PatientSignUpStep3 = () => {
   const [form, setForm] = useState({
     firstName: '',
     lastName: '',
     dob: '',
     gender: '',
-    ...initialData,
   });
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
     if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: '' }));
+      setErrors((prev) => ({ ...prev, [name]: '' }));
     }
   };
 
@@ -22,7 +23,6 @@ const PersonalInfo = ({ initialData = {}, onNext }) => {
     e.preventDefault();
     setErrors({});
 
-    // Basic validation
     const newErrors = {};
     if (!form.firstName.trim()) newErrors.firstName = 'First name is required';
     if (!form.lastName.trim()) newErrors.lastName = 'Last name is required';
@@ -34,7 +34,10 @@ const PersonalInfo = ({ initialData = {}, onNext }) => {
       return;
     }
 
-    onNext(form);
+    const storedData = JSON.parse(localStorage.getItem('formData')) || {};
+    localStorage.setItem('formData', JSON.stringify({...storedData, personalInfo: form,}));
+
+    navigate('/patientSignUpStep4');
   };
 
   return (
@@ -108,4 +111,4 @@ const PersonalInfo = ({ initialData = {}, onNext }) => {
   );
 };
 
-export default PersonalInfo;
+export default PatientSignUpStep3;

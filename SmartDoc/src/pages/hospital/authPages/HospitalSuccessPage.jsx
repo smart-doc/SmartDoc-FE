@@ -1,10 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import successImage from "../../assets/successImage.png"
+import successImage from "../../../assets/successImage.png"
 
 
-const SuccesPage = () => {
+const HospitalSuccesPage = () => {
   const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem('user')) || {};
+  const hospitalName = user.hospitalName || 'User';
 
   const toDashBoard = () => {
     navigate("/doctor")
@@ -16,7 +18,7 @@ const SuccesPage = () => {
         <img src={successImage} alt="Chatbot high five" className="w-48 h-48 mb-8" />
 
         <h1 className="text-2xl font-bold text-gray-900 mb-3">
-          Welcome aboard! 
+          Welcome aboard, {hospitalName}! 
         </h1>
 
         <p className="text-sm text-gray-600">
@@ -29,4 +31,4 @@ const SuccesPage = () => {
   );
 };
 
-export default SuccesPage;
+export default HospitalSuccesPage;

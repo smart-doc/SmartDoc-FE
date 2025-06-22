@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import axios from 'axios';
+import { useAuth } from './../context/AuthContext'; // Use AuthContext instead of direct axios
 import { toast } from 'react-toastify';
 
 const Login = () => {
@@ -11,65 +11,58 @@ const Login = () => {
   });
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
   const navigate = useNavigate();
+  const { signIn } = useAuth();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    setErrors({ ...errors, [name]: '' }); // Clear error on change
+    setErrors({ ...errors, [name]: '' });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
+    
     try {
-      // Step 1: Call sign-in API
-      const signInResponse = await axios.post(
-        'https://smartdoc-p1ca.onrender.com/api/v1/auth/signin',
-        formData
-      );
-      const { token, user } = signInResponse.data;
-      localStorage.setItem('token', token);
-      localStorage.setItem('user', JSON.stringify(user));
-
-      // Step 2: Fetch signed-in user profile
-      const profileResponse = await axios.get(
-        'https://smartdoc-p1ca.onrender.com/api/v1/user/profile/get/SignedinUserProfile',
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      const profileData = profileResponse.data;
-
-      // Step 3: Redirect based on user type or role
-      const userType = profileData.type || user.type;
-      const userRole = profileData.role?.name || user.role?.name;
+      const user = await signIn(formData.email, formData.password);
+      
+      toast.success('Login successful!');
+      
+      const userType = user.type;
+      const userRole = user.role?.name;
 
       if (userType === 'Patient' || userRole === 'Patient') {
-        navigate('/patients');
+        navigate('/patients', { replace: true });
       } else if (userType === 'Doctor' || userRole === 'Doctor') {
-        navigate('/doctor');
+        navigate('/doctor', { replace: true });
       } else if (
         userType === 'Hospital' ||
         userRole === 'Hospital' ||
         userRole === 'Admin'
       ) {
-        navigate('/admin');
+        navigate('/admin', { replace: true });
       } else {
         toast.error('Unknown user type or role');
+        navigate('/patients', { replace: true });
       }
-
-      toast.success('Login successful!');
     } catch (error) {
-      const errorMsg = error.response?.data?.error || 'Login failed';
+      const errorMsg = error.message;
+      
+      // Handle specific error types
       if (errorMsg.includes('email')) {
-        setErrors({ ...errors, email: errorMsg });
+        setErrors({ email: errorMsg });
       } else if (errorMsg.includes('password')) {
-        setErrors({ ...errors, password: errorMsg });
+        setErrors({ password: errorMsg });
       } else if (errorMsg.includes('verify your email')) {
-        setErrors({ ...errors, email: errorMsg });
+        setErrors({ email: errorMsg });
       } else {
         toast.error(errorMsg);
       }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -91,7 +84,7 @@ const Login = () => {
               Email
             </label>
             {errors.email && (
-              <p className="text-red-500 text-xs">{errors.email}</p>
+              <p className="text-red-500 text-xs mt-1">{errors.email}</p>
             )}
             <input
               type="email"
@@ -101,6 +94,7 @@ const Login = () => {
               placeholder="Enter your email address"
               className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-black"
               required
+              disabled={isSubmitting}
             />
           </div>
 
@@ -109,7 +103,7 @@ const Login = () => {
               Password
             </label>
             {errors.password && (
-              <p className="text-red-500 text-xs">{errors.password}</p>
+              <p className="text-red-500 text-xs mt-1">{errors.password}</p>
             )}
             <div className="relative">
               <input
@@ -120,11 +114,13 @@ const Login = () => {
                 placeholder="Enter your password"
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 pr-10 focus:outline-none focus:ring-2 focus:ring-black"
                 required
+                disabled={isSubmitting}
               />
               <button
                 type="button"
                 className="absolute inset-y-0 right-0 px-3 flex items-center text-gray-500"
                 onClick={() => setShowPassword(!showPassword)}
+                disabled={isSubmitting}
               >
                 <FaEye className={`${showPassword ? 'hidden' : 'block'}`} />
                 <FaEyeSlash className={`${showPassword ? 'block' : 'hidden'}`} />
@@ -134,14 +130,15 @@ const Login = () => {
 
           <button
             type="submit"
-            className="w-full bg-black text-white py-2 rounded-md shadow hover:bg-gray-800 transition duration-200 text-sm font-medium"
+            disabled={isSubmitting}
+            className="w-full bg-black text-white py-2 rounded-md shadow hover:bg-gray-800 transition duration-200 text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Sign in
+            {isSubmitting ? 'Signing in...' : 'Sign in'}
           </button>
         </form>
 
         <p className="text-sm text-gray-500 text-center">
-          Don’t have an account?{' '}
+          Don't have an account?{' '}
           <a href="/" className="text-blue-600 hover:underline">
             Sign up
           </a>

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../context/AuthContext';
 
-const HealthProfile = ({ formData, onNext }) => {
+const PatientSignUpStep6 = () => {
+  const { dispatch } = useAuth();
   const [form, setForm] = useState({
     bloodGroup: '',
     height_CM: '',
@@ -9,12 +11,13 @@ const HealthProfile = ({ formData, onNext }) => {
   });
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
     if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: '' }));
+      setErrors((prev) => ({ ...prev, [name]: '' }));
     }
   };
 
@@ -26,60 +29,76 @@ const HealthProfile = ({ formData, onNext }) => {
     const newErrors = {};
     if (!form.bloodGroup) newErrors.bloodGroup = 'Blood group is required';
 
+    if (form.height_CM && (parseFloat(form.height_CM) <= 0 || parseFloat(form.height_CM) > 300)) {
+      newErrors.height_CM = 'Height must be between 0 and 300 cm';
+    }
+    if (form.weight_KG && (parseFloat(form.weight_KG) <= 0 || parseFloat(form.weight_KG) > 1000)) {
+      newErrors.weight_KG = 'Weight must be between 0 and 1000 kg';
+    }
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       setLoading(false);
       return;
     }
 
+    const storedData = JSON.parse(localStorage.getItem('formData')) || {};
+
     const updateData = {
-      firstName: formData.personalInfo.firstName,
-      lastName: formData.personalInfo.lastName,
-      phoneNumber: formData.contactInfo.phoneNumber,
-      dateOfBirth: formData.personalInfo.dob,
-      gender: formData.personalInfo.gender,
-      address: formData.contactInfo.address,
-      city: formData.contactInfo.city,
-      state: formData.contactInfo.state,
-      emergencyContactName: formData.emergency.emergencyContactName,
-      emergencyContactPhoneNumber: formData.emergency.emergencyContactPhoneNumber,
-      emergencyContactRelationship: formData.emergency.emergencyContactRelationship,
+      firstName: storedData.personalInfo.firstName,
+      lastName: storedData.personalInfo.lastName,
+      phoneNumber: storedData.contactInfo.phoneNumber,
+      dateOfBirth: storedData.personalInfo.dob,
+      gender: storedData.personalInfo.gender,
+      address: storedData.contactInfo.address,
+      city: storedData.contactInfo.city,
+      state: storedData.contactInfo.state,
+      emergencyContactName: storedData.emergency.emergencyContactName,
+      emergencyContactPhoneNumber: storedData.emergency.emergencyContactPhoneNumber,
+      emergencyContactRelationship: storedData.emergency.emergencyContactRelationship,
       bloodGroup: form.bloodGroup,
       ...(form.height_CM && { height_CM: parseFloat(form.height_CM) }),
       ...(form.weight_KG && { weight_KG: parseFloat(form.weight_KG) })
     };
 
     try {
-      const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-      if (token){
-        console.log(token)
-      } else(
-        console.log("Token not available")
-      )
-      
+      const token = localStorage.getItem('token');
+      if (!token) {
+        throw new Error('No authentication token found');
+      }
+
       const response = await fetch('https://smartdoc-p1ca.onrender.com/api/v1/user/profile/update', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(updateData)
+        body: JSON.stringify(updateData),
       });
 
       const data = await response.json();
-
       if (!response.ok) {
         throw new Error(data.error || data.message || 'Failed to update profile');
       }
 
-      if (onNext) {
-        onNext({ completed: true, user: data.user });
-      } else {
-        window.location.href = '/dashboard'; 
-      }
-      
+      dispatch({
+        type: 'SIGN_IN',
+        payload: {
+          user: updateData,
+          token,
+        },
+      });
+
+      localStorage.removeItem('formData');
+      localStorage.setItem('user', JSON.stringify({ firstName: updateData.firstName }));
+
+      navigate('/patientSuccessPage');
     } catch (error) {
-      console.error('Profile update error:', error);
+      console.error('Profile update error:', {
+        message: error.message,
+        response: error.response?.data,
+        status: error.response?.status,
+      });
       setErrors({ general: error.message || 'Failed to save health profile. Please try again.' });
     } finally {
       setLoading(false);
@@ -169,4 +188,4 @@ const HealthProfile = ({ formData, onNext }) => {
   )
 }
 
-export default HealthProfile;
+export default PatientSignUpStep6;

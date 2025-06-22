@@ -1,19 +1,20 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
-const EmergencyForm = ({ initialData = {}, onNext }) => {
+const PatientSignUpStep5 = () => {
   const [form, setForm] = useState({
     emergencyContactName: '',
     emergencyContactPhoneNumber: '',
     emergencyContactRelationship: '',
-    ...initialData,
   });
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
     if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: '' }));
+      setErrors((prev) => ({ ...prev, [name]: '' }));
     }
   };
 
@@ -21,7 +22,6 @@ const EmergencyForm = ({ initialData = {}, onNext }) => {
     e.preventDefault();
     setErrors({});
 
-    // Validation
     const newErrors = {};
     if (!form.emergencyContactName.trim()) newErrors.emergencyContactName = 'Emergency contact name is required';
     if (!form.emergencyContactPhoneNumber.trim()) {
@@ -36,8 +36,18 @@ const EmergencyForm = ({ initialData = {}, onNext }) => {
       return;
     }
 
-    onNext(form);
+    const storedData = JSON.parse(localStorage.getItem('formData')) || {};
+    localStorage.setItem(
+      'formData',
+      JSON.stringify({
+        ...storedData,
+        emergency: form,
+      })
+    );
+
+    navigate('/patientSignUpStep6');
   };
+
 
   return (
     <form onSubmit={handleSubmit} className="min-h-screen flex flex-col justify-between bg-white px-6 py-12">
@@ -105,4 +115,4 @@ const EmergencyForm = ({ initialData = {}, onNext }) => {
   );
 };
 
-export default EmergencyForm;
+export default PatientSignUpStep5;

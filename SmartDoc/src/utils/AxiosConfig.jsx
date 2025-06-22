@@ -21,7 +21,7 @@ const SetUpAxiosInterceptors = () => {
     //     (error) => {
     //         if (error.response?.status === 401) {
     //             localStorage.clear();
-    //             window.location.href = '/signin';
+    //             window.location.href = '/login';
     //         }
     //         return Promise.reject(error);
     //     }
@@ -30,9 +30,9 @@ const SetUpAxiosInterceptors = () => {
     axios.interceptors.response.use(
         (response) => response,
         (error) => {
-            if (error.response?.status === 401 && window.location.pathname !== '/signin') {
+            if (error.response?.status === 401 && window.location.pathname !== '/login') {
                 localStorage.clear();
-                window.location.href = '/signin';
+                window.location.href = '/login';
             }
             return Promise.reject(error);
         }

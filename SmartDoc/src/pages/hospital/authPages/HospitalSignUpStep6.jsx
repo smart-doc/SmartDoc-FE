@@ -3,18 +3,19 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-const ConnectDoctor = () => {
+const HospitalSignUpStep6 = () => {
   const [document, setDocument] = useState(null);
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    if (file && ['text/csv', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'].includes(file.type)) {
+    if (file && ['text/csv', 'application/csv', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'].includes(file.type)) {
       setDocument(file);
       setError('');
     } else {
       setError('Please upload a .csv or .xlsx file');
+       toast.error('Please upload a .csv or .xlsx .xlsx file');
     }
   };
 
@@ -23,7 +24,7 @@ const ConnectDoctor = () => {
     const hospitalData = JSON.parse(localStorage.getItem('hospitalData') || '{}');
     const formData = new FormData();
 
-    // Append all hospital data fields
+    console.log('Submitting hospital data:', hospitalData);
     Object.keys(hospitalData).forEach((key) => {
       if (Array.isArray(hospitalData[key])) {
         formData.append(key, JSON.stringify(hospitalData[key])); // Stringify arrays
@@ -32,14 +33,14 @@ const ConnectDoctor = () => {
       }
     });
 
-    // Append document if present
     if (document) {
       formData.append('document', document);
     }
 
     try {
       const token = localStorage.getItem('token');
-      await axios.put(
+      console.log('API response:', response.data);
+      await axios.post(
         'https://smartdoc-p1ca.onrender.com/api/v1/user/profile/update',
         formData,
         {
@@ -49,10 +50,20 @@ const ConnectDoctor = () => {
           },
         }
       );
+
+      if (response.data.user) {
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+      }
+
       toast.success('Profile updated successfully!');
-      localStorage.removeItem('hospitalData'); // Clean up
-      navigate('/successPage');
+      localStorage.removeItem('hospitalData');
+      navigate('/hospitalSuccessPage');
     } catch (error) {
+      console.error('API error:', {
+      message: error.message,
+      response: error.response?.data,
+      status: error.response?.status,
+      });
       const errorMsg = error.response?.data?.error || 'Failed to update profile';
       setError(errorMsg);
       toast.error(errorMsg);
@@ -62,6 +73,8 @@ const ConnectDoctor = () => {
   const handleSkip = () => {
     const hospitalData = JSON.parse(localStorage.getItem('hospitalData') || '{}');
     const formData = new FormData();
+    
+    console.log('Submitting hospital data:', hospitalData);
 
     Object.keys(hospitalData).forEach((key) => {
       if (Array.isArray(hospitalData[key])) {
@@ -85,7 +98,7 @@ const ConnectDoctor = () => {
       .then(() => {
         toast.success('Profile updated successfully!');
         localStorage.removeItem('hospitalData');
-        navigate('/success');
+        navigate('/hospitalSuccessPage');
       })
       .catch((error) => {
         const errorMsg = error.response?.data?.error || 'Failed to update profile';
@@ -160,4 +173,4 @@ const ConnectDoctor = () => {
   );
 };
 
-export default ConnectDoctor;
+export default HospitalSignUpStep6;

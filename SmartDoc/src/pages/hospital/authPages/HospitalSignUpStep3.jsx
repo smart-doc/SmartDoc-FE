@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const HospitalDetailsForm = () => {
+const HospitalSignUpStep3 = () => {
   const [formData, setFormData] = useState({
     phoneNumber: '',
     address: '',
@@ -28,7 +28,7 @@ const HospitalDetailsForm = () => {
       'hospitalData',
       JSON.stringify({ ...hospitalData, ...formData })
     );
-    navigate('/verify-hospital');
+    navigate('/hospitalSignUpStep4');
   };
 
   return (
@@ -164,4 +164,4 @@ const HospitalDetailsForm = () => {
   );
 };
 
-export default HospitalDetailsForm;
+export default HospitalSignUpStep3;

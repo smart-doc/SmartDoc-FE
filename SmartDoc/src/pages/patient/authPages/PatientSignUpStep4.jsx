@@ -1,20 +1,21 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
-const ContactForm = ({ initialData = {}, onNext }) => {
+const PatientSignUpStep4 = () => {
   const [form, setForm] = useState({
     phoneNumber: '',
     state: '',
     city: '',
     address: '',
-    ...initialData,
   });
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
     if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: '' }));
+      setErrors((prev) => ({ ...prev, [name]: '' }));
     }
   };
 
@@ -23,11 +24,8 @@ const ContactForm = ({ initialData = {}, onNext }) => {
     setErrors({});
 
     const newErrors = {};
-    if (!form.phoneNumber.trim()) {
-      newErrors.phoneNumber = 'Phone number is required';
-    } else if (form.phoneNumber.length !== 11) {
-      newErrors.phoneNumber = 'Phone number must be 11 digits';
-    }
+    if (!form.phoneNumber.trim()) newErrors.phoneNumber = 'Phone number is required';
+    else if (form.phoneNumber.length !== 11) newErrors.phoneNumber = 'Phone number must be 11 digits';
     if (!form.state) newErrors.state = 'State is required';
     if (!form.city.trim()) newErrors.city = 'City is required';
     if (!form.address.trim()) newErrors.address = 'Address is required';
@@ -37,7 +35,16 @@ const ContactForm = ({ initialData = {}, onNext }) => {
       return;
     }
 
-    onNext(form);
+    const storedData = JSON.parse(localStorage.getItem('formData')) || {};
+    localStorage.setItem(
+      'formData',
+      JSON.stringify({
+        ...storedData,
+        contactInfo: form,
+      })
+    );
+
+    navigate('/patientSignUpStep5');
   };
 
   return (
@@ -152,4 +159,4 @@ const ContactForm = ({ initialData = {}, onNext }) => {
   );
 };
 
-export default ContactForm;
+export default PatientSignUpStep4;

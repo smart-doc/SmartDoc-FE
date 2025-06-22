@@ -22,16 +22,15 @@ const LandingPage = () => {
   }
 
   const toPatientsSignUp = () => {
-    navigate("/create")
+    navigate("/patientSignUpStep1")
   }
 
   const toHospitalSignUp = () => {
-    navigate("/HospitalAccount")
+    navigate("/hospitalSignUpStep1")
   }
 
   return (
     <div className="relative h-screen w-screen overflow-hidden" style={{ fontFamily: 'PP Neue Montreal' }}>
-      {/* Landing Page Background */}
       <div className={`h-full w-full absolute inset-0 flex flex-col justify-between items-center px-4 bg-white transition-all duration-300 ${showOnboarding ? 'blur-sm' : ''}`}>
         <div className="flex-grow flex flex-col justify-center items-center">
           <div className="flex gap-2 items-center justify-center mb-2">
@@ -54,7 +53,6 @@ const LandingPage = () => {
         </div>
       </div>
 
-      {/* Onboarding Half-Screen Slide-In */}
       <AnimatePresence>
         {showOnboarding && (
           <motion.div
@@ -72,7 +70,7 @@ const LandingPage = () => {
                 <GoPerson className='block' />
                 <div className='flex flex-col '>
                   <p className='font-semibold text-xl'>Patient</p>
-                  <p>I want to get care from doctors fast</p>
+                  <p>I want to get care from doctors fast and get unlimited access to SmartDoc's Medical/Healthcare AI</p>
                 </div>
               </div>
               <hr />

@@ -1,40 +1,41 @@
 import './App.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import HospitalSignUpStep1 from './pages/hospital/authPages/HospitalSignUpStep1';
+import HospitalSignUpStep2 from './pages/hospital/authPages/HospitalSignUpStep2';
+import HospitalSignUpStep3 from './pages/hospital/authPages/HospitalSignUpStep3';
+import HospitalSignUpStep4 from './pages/hospital/authPages/HospitalSignUpStep4';
+import HospitalSignUpStep5 from './pages/hospital/authPages/HospitalSignUpStep5';
+import HospitalSignUpStep6 from './pages/hospital/authPages/HospitalSignUpStep6';
+import HospitalSuccessPage from './pages/hospital/authPages/HospitalSuccessPage';
+
+import PatientSignUpStep1 from './pages/patient/authPages/PatientSignUpStep1';
+import PatientSignUpStep2 from './pages/patient/authPages/PatientSignUpStep2';
+import PatientSignUpStep3 from './pages/patient/authPages/PatientSignUpStep3';
+import PatientSignUpStep4 from './pages/patient/authPages/PatientSignUpStep4';
+import PatientSignUpStep5 from './pages/patient/authPages/PatientSignUpStep5';
+import PatientSignUpStep6 from './pages/patient/authPages/PatientSignUpStep6';  
+import PatientSuccessPage from './pages/patient/authPages/PatientSuccessPage';
+
 import PatientDashboard from './pages/patient/PatientDashboard';
-import DoctorPortal from './pages/hospital/DoctorPortal';
-import HospitalAccount from "./pages/hospital/CreateAccount";
+import DoctorPortal from './pages/doctor/DoctorPortal';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import HospitAccountContd from "./pages/hospital/ContinueAccountCreation";
-import VerifyHospital from './pages/hospital/VerifyHospital';
-import UnderstandingCaps from "./pages/hospital/StageFive";
-import ConnectDoctor from './pages/hospital/ConnectDoctor';
-import SuccessPage from "./pages/hospital/SuccessPage"
 import NoPage from './pages/NoPage'
 import Navbar from './components/Navbar';
 import SummarySent from './pages/patient/SummarySent';
 import Recording from './pages/patient/Recording';
 import Transcribing from './pages/patient/Transcribing';
 import ConfirmTranscription from "./pages/patient/ConfirmTransciption";
-import CreateAccount from './pages/patient/CreateAccount';
-import VerifyEmailPatient from './pages/patient/VerifyEmailPatient';
-import PersonalInfo from './pages/patient/PersonalInfo';
-import OnboardingForm from './pages/patient/ContactFrom';
-import EmergencyForm from './pages/patient/EmergencyForm';
-import HealthProfile from './pages/patient/HealthProfile';
-import SuccessfulPage from './pages/patient/SuccessfulPage';
 import FollowUpChat from './pages/patient/FollowUpChat';
 import NewChat from './pages/patient/NewChat';
 import LandingPage from './pages/LandingPage';
-import Account from './pages/patient/Account';
 import { AuthProvider } from "./context/AuthContext";
 import SetUpAxiosInterceptors from "./utils/AxiosConfig";
 import { useEffect } from "react";
 import Login from './pages/Login';
-import VerifyEmailHospital from './pages/hospital/VerifyEmailHospital';
-import HospitalDetailsForm from './pages/hospital/ContinueAccountCreation';
 import Chat from './components/Chat';
 import ProtectRoute from './components/ProtectRoute';
+
 
 export default function App() {
 
@@ -47,24 +48,30 @@ export default function App() {
       <AuthProvider>
         <Routes>
           <Route path='/' element={<LandingPage />} />
-          <Route path='/create' element={<Account />} />
+          <Route path='/patientSignUpStep1' element={<PatientSignUpStep1/>} />
+          <Route path='/patientSignUpStep2' element={<PatientSignUpStep2/>}/>
+          <Route path='/patientSignUpStep3' element={<PatientSignUpStep3/>} />
+          <Route path='/patientSignUpStep4' element={<PatientSignUpStep4/>} />
+          <Route path='/patientSignUpStep5' element={<PatientSignUpStep5/>} />
+          <Route path='/patientSignUpStep6' element={<PatientSignUpStep6/>} />
+          <Route path='/patientSuccessPage' element={<PatientSuccessPage/>} />
+
+          <Route path='/hospitalSignUpStep1' element={<HospitalSignUpStep1/>}/>
+          <Route path='/hospitalSignUpStep2' element={<HospitalSignUpStep2/>}/>
+          <Route path='/hospitalSignUpStep3' element={<HospitalSignUpStep3/>}/>
+          <Route path="/hospitalSignUpStep4" element={<HospitalSignUpStep4/>}/>
+          <Route path='/hospitalSignUpStep5' element={<HospitalSignUpStep5/>}/>
+          <Route path='/hospitalSignUpStep6' element={<HospitalSignUpStep6/>}/>
+          <Route path='/hospitalSuccessPage' element={<HospitalSuccessPage/>}/>
+
           <Route path='/follow' element={<FollowUpChat />} />
           <Route path='/patientsNewChat' element={<NewChat />} />
-          <Route path='/verify-email-patient' element={<VerifyEmailPatient/>}/>
-          <Route path="/verify-hospital" element={<VerifyHospital />} />
-          <Route path='/capabilities' element={<UnderstandingCaps />} />
-          <Route path='/HospitalAccount' element={<HospitalAccount />} />
-          <Route path='/connect-doctor' element={<ConnectDoctor />} />
-          <Route path="/successPage" element={<SuccessPage />} />
           <Route path="/doctor" element={<DoctorPortal />} />
           <Route path="/confirm" element={<ConfirmTranscription />} />
           <Route path="/login" element={<Login />} />
-          <Route path='/verify-email-hospital' element={<VerifyEmailHospital/>}/>
-          <Route path='/hospital-details' element={<HospitalDetailsForm/>}/>
-          <Route element={<ProtectRoute />}>
+          <Route element={<ProtectRoute />}/>
             <Route path="/patients" element={<PatientDashboard />} />
             <Route path="/patientsChat" element={<Chat />} />
-          </Route>
           <Route path='*' element={<NoPage />} />
 
         </Routes>

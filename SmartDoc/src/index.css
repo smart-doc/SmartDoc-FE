@@ -5,26 +5,3 @@
   font-weight: 400;
   font-style: normal;
 }
-/* src/index.css */
-/* .Toastify__toast {
-  @apply bg-white text-gray-900 border border-gray-200 shadow-lg rounded-md;
-}
-.Toastify__toast--success {
-  @apply bg-green-50 text-green-800 border-green-200;
-}
-.Toastify__toast--error {
-  @apply bg-red-50 text-red-800 border-red-200;
-} */
-
-/* src/index.css */
-/* @import 'react-toastify/dist/ReactToastify.css';
-
-.Toastify__toast {
-  @apply bg-white text-gray-900 border border-gray-200 shadow-lg rounded-md;
-}
-.Toastify__toast--success {
-  @apply bg-green-50 text-green-800 border-green-200;
-}
-.Toastify__toast--error {
-  @apply bg-red-50 text-red-800 border-red-200;
-} */
