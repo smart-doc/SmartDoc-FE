@@ -60,16 +60,21 @@
 //       dispatch({ type: 'AUTH_START' });
 //       const token = localStorage.getItem('token');
 //       const userData = localStorage.getItem('user');
+//       console.log('Validating token:', token);
 
 //       if (!token || !userData) {
-//         dispatch({ type: 'SIGN_OUT' });
+//         dispatch({ type: 'AUTH_END' });
 //         return;
 //       }
 
 //       try {
+//         console.log('Validating token:', token);
 //         const response = await axios.get(
 //           'https://smartdoc-p1ca.onrender.com/api/v1/user/profile/get/SignedinUserProfile',
-//           { headers: { Authorization: `Bearer ${token}` } }
+//           { 
+//             headers: { Authorization: `Bearer ${token}` },
+//             timeout: 10000
+//           }
 //         );
 //         const user = response.data;
 //         dispatch({
@@ -83,8 +88,6 @@
 //               phoneNumber: user.phoneNumber,
 //               role: user.role,
 //               type: user.type,
-//               hospitalName: user.hospitalName,
-//               isAdmin: user.type === 'Admin' || user.role?.name === 'Admin',
 //             },
 //             token,
 //           },
@@ -97,13 +100,23 @@
 //           type: 'AUTH_ERROR',
 //           payload: { error: 'Invalid or expired session. Please sign in again.' },
 //         });
-//         toast.error('Session expired. Please sign in again.');
-//         navigate('/');
-//       } finally {
-//         // Fixed: Use AUTH_END instead of AUTH_START
+        
+//         // Only show toast and navigate if it's not a network timeout
+//         if (error.code !== 'ECONNABORTED') {
+//           toast.error('Session expired. Please sign in again.');
+//           // Only navigate if not already on login page
+//           if (window.location.pathname !== '/login') {
+//             navigate('/login', { replace: true });
+//           }
+//           } else {
+//         // For network errors, keep token and retry later
 //         dispatch({ type: 'AUTH_END' });
+//         }
+//       } finally {
+//         dispatch({ type: 'AUTH_END' }); 
 //       }
 //     };
+    
 //     validateToken();
 //   }, [navigate]);
 
@@ -112,15 +125,22 @@
 //     try {
 //       const response = await axios.post(
 //         'https://smartdoc-p1ca.onrender.com/api/v1/auth/signin',
-//         { email, password }
+//         { email, password },
+//         { timeout: 10000 }
 //       );
 //       const { token, user } = response.data;
+      
+//       // Store in localStorage
 //       localStorage.setItem('token', token);
 //       localStorage.setItem('user', JSON.stringify(user));
 
+//       // Get full profile
 //       const profileResponse = await axios.get(
 //         'https://smartdoc-p1ca.onrender.com/api/v1/user/profile/get/SignedinUserProfile',
-//         { headers: { Authorization: `Bearer ${token}` } }
+//         { 
+//           headers: { Authorization: `Bearer ${token}` },
+//           timeout: 10000 
+//         }
 //       );
 //       const profileUser = profileResponse.data;
 
@@ -143,7 +163,7 @@
 //       });
 //       return profileUser;
 //     } catch (error) {
-//       const errorMsg = error.response?.data?.error || 'Sign-in failed';
+//       const errorMsg = error.response?.data?.error || error.message || 'Sign-in failed';
 //       dispatch({ type: 'AUTH_ERROR', payload: { error: errorMsg } });
 //       throw new Error(errorMsg);
 //     }
@@ -153,7 +173,7 @@
 //     localStorage.removeItem('token');
 //     localStorage.removeItem('user');
 //     dispatch({ type: 'SIGN_OUT' });
-//     navigate('/');
+//     navigate('/', { replace: true });
 //     toast.success('Signed out successfully.');
 //   };
 
@@ -234,7 +254,6 @@ export const AuthProvider = ({ children }) => {
       dispatch({ type: 'AUTH_START' });
       const token = localStorage.getItem('token');
       const userData = localStorage.getItem('user');
-      console.log('Validating token:', token);
 
       if (!token || !userData) {
         dispatch({ type: 'AUTH_END' });
@@ -242,12 +261,11 @@ export const AuthProvider = ({ children }) => {
       }
 
       try {
-        console.log('Validating token:', token);
         const response = await axios.get(
-          'https://smartdoc-p1ca.onrender.com/api/v1/user/profile/get/SignedinUserProfile',
-          { 
+          'https://smartdoc-p1ca.onrender.com/api/v1/user/profile/get/SignedInUserProfile',
+          {
             headers: { Authorization: `Bearer ${token}` },
-            timeout: 10000
+            timeout: 10000,
           }
         );
         const user = response.data;
@@ -262,60 +280,125 @@ export const AuthProvider = ({ children }) => {
               phoneNumber: user.phoneNumber,
               role: user.role,
               type: user.type,
-              // hospitalName: user.hospitalName,
-              // isAdmin: user.type === 'Admin' || user.role?.name === 'Admin',
             },
             token,
           },
         });
       } catch (error) {
-        console.error('Token validation error:', error.response?.status, error.response?.data);
+        console.error('Token validation error:', error.response?.data);
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         dispatch({
           type: 'AUTH_ERROR',
           payload: { error: 'Invalid or expired session. Please sign in again.' },
         });
-        
-        // Only show toast and navigate if it's not a network timeout
+
         if (error.code !== 'ECONNABORTED') {
           toast.error('Session expired. Please sign in again.');
-          // Only navigate if not already on login page
           if (window.location.pathname !== '/login') {
             navigate('/login', { replace: true });
           }
-          } else {
-        // For network errors, keep token and retry later
-        dispatch({ type: 'AUTH_END' });
+        } else {
+          dispatch({ type: 'AUTH_END' });
         }
       } finally {
-        dispatch({ type: 'AUTH_END' }); 
+        dispatch({ type: 'AUTH_END' });
       }
     };
-    
+
     validateToken();
   }, [navigate]);
+
+  const getUserByEmail = async (email) => {
+    dispatch({ type: 'AUTH_START' });
+    try {
+      const response = await axios.get(
+        `https://smartdoc-p1ca.onrender.com/api/v1/user/profile/get/${encodeURIComponent(email.toLowerCase())}`,
+        {
+          headers: { 'Content-Type': 'application/json' },
+          timeout: 10000,
+        }
+      );
+      const user = response.data;
+      return {
+        _id: user._id,
+        email: user.email,
+        type: user.type,
+        emailVerified: user.emailVerified,
+      };
+    } catch (error) {
+      const errorMsg = error.response?.data?.error || 'Failed to fetch user';
+      dispatch({ type: 'AUTH_ERROR', payload: { error: errorMsg } });
+      throw new Error(errorMsg);
+    } finally {
+      dispatch({ type: 'AUTH_END' });
+    }
+  };
+
+  const verifyOtp = async (email, otp) => {
+    dispatch({ type: 'AUTH_START' });
+    try {
+      const response = await axios.post(
+        'https://smartdoc-p1ca.onrender.com/api/v1/auth/verify-otp',
+        { email: email.toLowerCase(), otp },
+        {
+          headers: { 'Content-Type': 'application/json' },
+          timeout: 10000,
+        }
+      );
+      if (!response.data.success) {
+        throw new Error(response.data.error || 'Invalid OTP');
+      }
+      return response.data;
+    } catch (error) {
+      const errorMsg = error.response?.data?.error || error.message || 'Failed to verify OTP';
+      dispatch({ type: 'AUTH_ERROR', payload: { error: errorMsg } });
+      throw new Error(errorMsg);
+    } finally {
+      dispatch({ type: 'AUTH_END' });
+    }
+  };
+
+  const resendOtp = async (email) => {
+    dispatch({ type: 'AUTH_START' });
+    try {
+      const response = await axios.post(
+        'https://smartdoc-p1ca.onrender.com/api/v1/auth/resend-otp',
+        { email: email.toLowerCase() },
+        {
+          headers: { 'Content-Type': 'application/json' },
+          timeout: 10000,
+        }
+      );
+      toast.success(response.data.message || 'Verification OTP sent to your email!');
+      return response.data;
+    } catch (error) {
+      const errorMsg = error.response?.data?.error || error.message || 'Failed to resend OTP';
+      dispatch({ type: 'AUTH_ERROR', payload: { error: errorMsg } });
+      throw new Error(errorMsg);
+    } finally {
+      dispatch({ type: 'AUTH_END' });
+    }
+  };
 
   const signIn = async (email, password) => {
     dispatch({ type: 'AUTH_START' });
     try {
       const response = await axios.post(
         'https://smartdoc-p1ca.onrender.com/api/v1/auth/signin',
-        { email, password },
+        { email: email.toLowerCase(), password },
         { timeout: 10000 }
       );
       const { token, user } = response.data;
-      
-      // Store in localStorage
+
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(user));
 
-      // Get full profile
       const profileResponse = await axios.get(
-        'https://smartdoc-p1ca.onrender.com/api/v1/user/profile/get/SignedinUserProfile',
-        { 
+        'https://smartdoc-p1ca.onrender.com/api/v1/user/profile/get/SignedInUserProfile',
+        {
           headers: { Authorization: `Bearer ${token}` },
-          timeout: 10000 
+          timeout: 10000,
         }
       );
       const profileUser = profileResponse.data;
@@ -354,7 +437,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ state, dispatch, signIn, signOut }}>
+    <AuthContext.Provider value={{ state, dispatch, signIn, signOut, getUserByEmail, verifyOtp, resendOtp }}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { useAuth } from './../context/AuthContext'; // Use AuthContext instead of direct axios
+import { useAuth } from '../context/AuthContext';
 import { toast } from 'react-toastify';
 
 const Login = () => {
@@ -12,9 +12,24 @@ const Login = () => {
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
+
   const navigate = useNavigate();
-  const { signIn } = useAuth();
+  const location = useLocation();
+  const { signIn, getUserByEmail, resendOtp } = useAuth();
+
+  // Handle query parameters for prefilled email and verified status
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const emailFromQuery = params.get('email') || '';
+    const verified = params.get('verified') === 'true';
+
+    if (emailFromQuery) {
+      setFormData((prev) => ({ ...prev, email: emailFromQuery }));
+    }
+    if (verified) {
+      toast.success('Email verified successfully! Please enter your password to sign in.');
+    }
+  }, [location.search]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,17 +37,80 @@ const Login = () => {
     setErrors({ ...errors, [name]: '' });
   };
 
+  const handleEmailVerification = async (email) => {
+    if (!email.trim()) {
+      toast.error('Please enter an email address');
+      return;
+    }
+
+    try {
+      const user = await getUserByEmail(email);
+      localStorage.setItem('email', email);
+
+      if (user && user.type) {
+        const userType = user.type.toLowerCase();
+        localStorage.setItem('email', email);
+        // Trigger OTP resend
+        await resendOtp(email);
+
+        switch (userType) {
+          case 'doctor':
+            navigate('/doctorVerifyOtp', {
+              state: { email, userType: 'Doctor' },
+              replace: true,
+            });
+            break;
+          case 'hospital':
+            navigate('/hospitalSignUpStep2', {
+              state: { email, userType: 'Hospital' },
+              replace: true,
+            });
+            break;
+          case 'patient':
+            navigate('/patientSignUpStep2', {
+              state: { email, userType: 'Patient' },
+              replace: true,
+            });
+            break;
+          default:
+            toast.error('Unknown user type');
+            break;
+        }
+      } else {
+        toast.error('User not found');
+      }
+    } catch (error) {
+      toast.error(error.message || 'Failed to fetch user information');
+      console.error('Error fetching user:', error);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+    setErrors({});
+
     try {
-      const user = await signIn(formData.email, formData.password);
+      // Check email verification status first
       
+      const user = await getUserByEmail(formData.email);
+      if (!user.emailVerified) {
+        setErrors({
+          email: {
+            message: 'You have not verified your email. Kindly click here to verify your email.',
+            needsVerification: true,
+          },
+        });
+        return;
+      }
+
+      // Proceed with sign-in
+      const profileUser = await signIn(formData.email, formData.password);
+
       toast.success('Login successful!');
-      
-      const userType = user.type;
-      const userRole = user.role?.name;
+
+      const userType = profileUser.type;
+      const userRole = profileUser.role?.name;
 
       if (userType === 'Patient' || userRole === 'Patient') {
         navigate('/patients', { replace: true });
@@ -50,14 +128,21 @@ const Login = () => {
       }
     } catch (error) {
       const errorMsg = error.message;
-      
+
       // Handle specific error types
       if (errorMsg.includes('email')) {
-        setErrors({ email: errorMsg });
+        if (errorMsg.includes('verify your email')) {
+          setErrors({
+            email: {
+              message: errorMsg,
+              needsVerification: true,
+            },
+          });
+        } else {
+          setErrors({ email: errorMsg });
+        }
       } else if (errorMsg.includes('password')) {
         setErrors({ password: errorMsg });
-      } else if (errorMsg.includes('verify your email')) {
-        setErrors({ email: errorMsg });
       } else {
         toast.error(errorMsg);
       }
@@ -84,7 +169,22 @@ const Login = () => {
               Email
             </label>
             {errors.email && (
-              <p className="text-red-500 text-xs mt-1">{errors.email}</p>
+              <div className="text-red-500 text-xs mt-1">
+                {typeof errors.email === 'object' && errors.email.needsVerification ? (
+                  <span>
+                    {errors.email.message.split('Kindly click here')[0]}
+                    <button
+                      type="button"
+                      onClick={() => handleEmailVerification(formData.email)}
+                      className="text-blue-600 hover:underline cursor-pointer ml-1"
+                    >
+                      click here to verify your email
+                    </button>
+                  </span>
+                ) : (
+                  <span>{typeof errors.email === 'string' ? errors.email : errors.email.message}</span>
+                )}
+              </div>
             )}
             <input
               type="email"

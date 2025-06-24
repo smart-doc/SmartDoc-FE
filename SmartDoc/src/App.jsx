@@ -16,6 +16,8 @@ import PatientSignUpStep5 from './pages/patient/authPages/PatientSignUpStep5';
 import PatientSignUpStep6 from './pages/patient/authPages/PatientSignUpStep6';  
 import PatientSuccessPage from './pages/patient/authPages/PatientSuccessPage';
 
+import DoctorVerifyOtp from './pages/doctor/DoctorVerifyOtp';
+
 import PatientDashboard from './pages/patient/PatientDashboard';
 import DoctorPortal from './pages/doctor/DoctorPortal';
 import { ToastContainer } from 'react-toastify';
@@ -63,6 +65,8 @@ export default function App() {
           <Route path='/hospitalSignUpStep5' element={<HospitalSignUpStep5/>}/>
           <Route path='/hospitalSignUpStep6' element={<HospitalSignUpStep6/>}/>
           <Route path='/hospitalSuccessPage' element={<HospitalSuccessPage/>}/>
+
+          <Route path='/doctorVerifyOtp' element={<DoctorVerifyOtp/>}/>
 
           <Route path='/follow' element={<FollowUpChat />} />
           <Route path='/patientsNewChat' element={<NewChat />} />

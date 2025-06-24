@@ -10,24 +10,33 @@ const HospitalSignUpStep6 = () => {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    if (file && ['text/csv', 'application/csv', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'].includes(file.type)) {
+    if (
+      file &&
+      ['text/csv', 'application/csv', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'].includes(file.type) &&
+      file.size <= 10 * 1024 * 1024
+    ) {
       setDocument(file);
       setError('');
     } else {
-      setError('Please upload a .csv or .xlsx file');
-       toast.error('Please upload a .csv or .xlsx .xlsx file');
+      const errorMsg = file.size > 10 * 1024 * 1024 ? 'File size must be 10MB or less' : 'Please upload a .csv or .xlsx file';
+      setError(errorMsg);
+      toast.error(errorMsg);
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const hospitalData = JSON.parse(localStorage.getItem('hospitalData') || '{}');
-    const formData = new FormData();
+    setError('');
 
+    const hospitalData = JSON.parse(localStorage.getItem('hospitalData') || '{}');
+
+    const formData = new FormData();
     console.log('Submitting hospital data:', hospitalData);
+
+    // Append fields, avoiding stringifying arrays
     Object.keys(hospitalData).forEach((key) => {
       if (Array.isArray(hospitalData[key])) {
-        formData.append(key, JSON.stringify(hospitalData[key])); // Stringify arrays
+        hospitalData[key].forEach((item) => formData.append(`${key}[]`, typeof item === 'object' ? JSON.stringify(item) : item));
       } else {
         formData.append(key, hospitalData[key]);
       }
@@ -39,8 +48,7 @@ const HospitalSignUpStep6 = () => {
 
     try {
       const token = localStorage.getItem('token');
-      console.log('API response:', response.data);
-      await axios.post(
+      const response = await axios.post(
         'https://smartdoc-p1ca.onrender.com/api/v1/user/profile/update',
         formData,
         {
@@ -48,8 +56,11 @@ const HospitalSignUpStep6 = () => {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'multipart/form-data',
           },
+          timeout: 15000, // 15 seconds
         }
       );
+
+      console.log('API response:', response.data);
 
       if (response.data.user) {
         localStorage.setItem('user', JSON.stringify(response.data.user));
@@ -60,9 +71,9 @@ const HospitalSignUpStep6 = () => {
       navigate('/hospitalSuccessPage');
     } catch (error) {
       console.error('API error:', {
-      message: error.message,
-      response: error.response?.data,
-      status: error.response?.status,
+        message: error.message,
+        response: error.response?.data,
+        status: error.response?.status,
       });
       const errorMsg = error.response?.data?.error || 'Failed to update profile';
       setError(errorMsg);
@@ -70,41 +81,53 @@ const HospitalSignUpStep6 = () => {
     }
   };
 
-  const handleSkip = () => {
+  const handleSkip = async () => {
     const hospitalData = JSON.parse(localStorage.getItem('hospitalData') || '{}');
+
     const formData = new FormData();
-    
     console.log('Submitting hospital data:', hospitalData);
 
     Object.keys(hospitalData).forEach((key) => {
       if (Array.isArray(hospitalData[key])) {
-        formData.append(key, JSON.stringify(hospitalData[key]));
+        hospitalData[key].forEach((item) => formData.append(`${key}[]`, typeof item === 'object' ? JSON.stringify(item) : item));
       } else {
         formData.append(key, hospitalData[key]);
       }
     });
 
-    axios
-      .post(
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.post( 
         'https://smartdoc-p1ca.onrender.com/api/v1/user/profile/update',
         formData,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            Authorization: `Bearer ${token}`,
             'Content-Type': 'multipart/form-data',
           },
+          timeout: 15000,
         }
-      )
-      .then(() => {
-        toast.success('Profile updated successfully!');
-        localStorage.removeItem('hospitalData');
-        navigate('/hospitalSuccessPage');
-      })
-      .catch((error) => {
-        const errorMsg = error.response?.data?.error || 'Failed to update profile';
-        setError(errorMsg);
-        toast.error(errorMsg);
+      );
+
+      console.log('API response:', response.data);
+
+      if (response.data.user) {
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+      }
+
+      toast.success('Profile updated successfully!');
+      localStorage.removeItem('hospitalData');
+      navigate('/hospitalSuccessPage');
+    } catch (error) {
+      console.error('API error:', {
+        message: error.message,
+        response: error.response?.data,
+        status: error.response?.status,
       });
+      const errorMsg = error.response?.data?.error || 'Failed to update profile';
+      setError(errorMsg);
+      toast.error(errorMsg);
+    }
   };
 
   return (
@@ -150,7 +173,7 @@ const HospitalSignUpStep6 = () => {
                 Click to upload a .csv or .xlsx file
               </div>
               <div className="text-xs text-gray-400 mb-4">
-                Max size: 5MB
+                Max size: 10MB
               </div>
               <button
                 type="button"
@@ -165,7 +188,7 @@ const HospitalSignUpStep6 = () => {
 
       <button
         type="submit"
-        className="w-full bg-black text-white py-2 rounded-md text-sm font-medium hover:bg-gray-800 transition duration-200 cursor-pointer"
+        className="w-full bg-black text-white py-2 rounded-md text-sm font-medium hover:bg-gray-800 transition-colors"
       >
         Continue
       </button>
