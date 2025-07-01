@@ -50,7 +50,7 @@ const PatientDashboard = () => {
       <header className="flex gap-3 items-center">
         <RxAvatar className="text-5xl block" />
         <div>
-          <h1 className="text-xl font-bold">Hi {user.firstName || 'User'}</h1>
+          <h1 className="text-xl font-bold">Hi {user.firstName || 'User'} !</h1>
           <p>How are you doing today?</p>
         </div>
       </header>

@@ -35,7 +35,7 @@ const PatientSignUpStep1 = () => {
           password: form.password,
           firstName: 'temp', 
           lastName: 'temp',
-          phoneNumber: '00000000000',
+          phoneNumber: '01000100000',
           dateOfBirth: '2000-01-01',
           gender: 'Other',
           address: 'temp',

@@ -196,4 +196,5 @@ const HospitalSignUpStep6 = () => {
   );
 };
 
-export default HospitalSignUpStep6;
+export default HospitalSignUpStep6;y
+
