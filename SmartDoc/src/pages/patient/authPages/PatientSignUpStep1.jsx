@@ -7,6 +7,7 @@ const PatientSignUpStep1 = () => {
   const [errors, setErrors] = useState({});
   const [form, setForm] = useState({
     email: '',
+    phoneNumber: '',
     password: '',
   });
   const navigate = useNavigate();
@@ -78,6 +79,7 @@ const PatientSignUpStep1 = () => {
       const registrationData = {
         account: {
           email: form.email,
+          phoneNumber: form.phoneNumber,
           password: form.password,
           token: data.token,
           userId: data.user._id,
@@ -121,6 +123,19 @@ const PatientSignUpStep1 = () => {
           name="email"
           placeholder="Enter your email address"
           className={`w-full border p-2 mb-4 rounded ${errors.email ? 'border-red-500' : ''}`}
+          required
+        />
+
+        <label className="text-md font-medium" htmlFor="email">PhoneNumber</label>
+        {errors.phoneNumber && <div className="text-red-500 text-sm mb-1">{errors.phoneNumber}</div>}
+        <input
+          value={form.phoneNumber}
+          onChange={handleChange}
+          type="text"
+          id="phoneNumber"
+          name="phoneNumber"
+          placeholder="Enter your phone number"
+          className={`w-full border p-2 mb-4 rounded ${errors.phoneNumber ? 'border-red-500' : ''}`}
           required
         />
 
