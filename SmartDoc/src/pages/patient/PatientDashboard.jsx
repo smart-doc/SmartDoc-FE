@@ -24,7 +24,6 @@ const PatientDashboard = () => {
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
-      console.log('PatientDashboard: Redirecting unauthenticated user');
       toast.error('Please sign in to access your dashboard.');
       navigate('/login', { replace: true });
     }
