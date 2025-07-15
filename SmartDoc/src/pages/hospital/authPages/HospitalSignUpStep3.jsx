@@ -32,7 +32,7 @@ const HospitalSignUpStep3 = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white px-4">
+    <div className="min-h-screen flex justify-center bg-white px-4 ml-5 mr-5 mt-10">
       <div className="max-w-md w-full space-y-6">
         <div>
           <p className="text-sm text-gray-700 font-medium">Step 1 of 4</p>
@@ -45,7 +45,7 @@ const HospitalSignUpStep3 = () => {
           </p>
         </div>
 
-        <form className="space-y-4 border border-blue-400 p-4 rounded-md">
+        <form className="space-y-4 p-4 rounded-md">
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Contact phone number
@@ -59,7 +59,7 @@ const HospitalSignUpStep3 = () => {
               value={formData.phoneNumber}
               onChange={handleChange}
               placeholder="Enter your contact phone"
-              className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-black focus:outline-none"
+              className="mt-1 block w-full shadow-sm border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-black focus:outline-none"
               required
             />
           </div>
@@ -77,7 +77,7 @@ const HospitalSignUpStep3 = () => {
               value={formData.address}
               onChange={handleChange}
               placeholder="Enter your hospital address"
-              className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-black focus:outline-none"
+              className="mt-1 block w-full shadow-sm border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-black focus:outline-none"
               required
             />
           </div>
@@ -91,7 +91,7 @@ const HospitalSignUpStep3 = () => {
               name="state"
               value={formData.state}
               onChange={handleChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white focus:ring-2 focus:ring-black focus:outline-none"
+              className="mt-1 block w-full shadow-sm border border-gray-300 rounded-md p-2 bg-white focus:ring-2 focus:ring-black focus:outline-none"
               required
             >
               <option value="">Select your state</option>
@@ -146,7 +146,7 @@ const HospitalSignUpStep3 = () => {
               value={formData.city}
               onChange={handleChange}
               placeholder="Enter the city where your hospital is located"
-              className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-black focus:outline-none"
+              className="mt-1 block w-full shadow-sm border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-black focus:outline-none"
               required
             />
           </div>

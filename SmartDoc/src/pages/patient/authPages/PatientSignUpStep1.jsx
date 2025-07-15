@@ -7,7 +7,7 @@ const PatientSignUpStep1 = () => {
   const [errors, setErrors] = useState({});
   const [form, setForm] = useState({
     email: '',
-    phoneNumber: '',
+    // phoneNumber: '',
     password: '',
   });
   const navigate = useNavigate();
@@ -36,7 +36,7 @@ const PatientSignUpStep1 = () => {
           password: form.password,
           firstName: 'temp', 
           lastName: 'temp',
-          phoneNumber: '01000100000',
+          // phoneNumber: '01000100000',
           dateOfBirth: '2000-01-01',
           gender: 'Other',
           address: 'temp',
@@ -79,7 +79,7 @@ const PatientSignUpStep1 = () => {
       const registrationData = {
         account: {
           email: form.email,
-          phoneNumber: form.phoneNumber,
+          // phoneNumber: form.phoneNumber,
           password: form.password,
           token: data.token,
           userId: data.user._id,
@@ -122,11 +122,11 @@ const PatientSignUpStep1 = () => {
           id="email"
           name="email"
           placeholder="Enter your email address"
-          className={`w-full border p-2 mb-4 rounded ${errors.email ? 'border-red-500' : ''}`}
+          className={`mt-1 mb-3 w-full border rounded-md shadow-sm p-2 pr-10 focus:outline-none focus:ring-2 focus:ring-black ${errors.email ? 'border-red-500' : 'border-gray-300'}`}
           required
         />
 
-        <label className="text-md font-medium" htmlFor="email">PhoneNumber</label>
+        {/* <label className="text-md font-medium" htmlFor="phoneNumber">PhoneNumber</label>
         {errors.phoneNumber && <div className="text-red-500 text-sm mb-1">{errors.phoneNumber}</div>}
         <input
           value={form.phoneNumber}
@@ -135,11 +135,11 @@ const PatientSignUpStep1 = () => {
           id="phoneNumber"
           name="phoneNumber"
           placeholder="Enter your phone number"
-          className={`w-full border p-2 mb-4 rounded ${errors.phoneNumber ? 'border-red-500' : ''}`}
+          className={`mt-1 mb-3 w-full border rounded-md shadow-sm p-2 pr-10 focus:outline-none focus:ring-2 focus:ring-black ${errors.phoneNumber ? 'border-red-500' : 'border-gray-300'}`}
           required
-        />
+        /> */}
 
-        <label className="block text-sm font-medium text-gray-700">Password</label>
+        <label className="text-md font-medium">Password</label>
         {errors.password && <div className="text-red-500 text-sm mb-1">{errors.password}</div>}
         <div className="relative">
           <input
@@ -148,7 +148,7 @@ const PatientSignUpStep1 = () => {
             name="password"
             type={showPassword ? 'text' : 'password'}
             placeholder="Enter your password"
-            className={`mt-1 block w-full border rounded-md shadow-sm p-2 pr-10 focus:outline-none focus:ring-2 focus:ring-black ${errors.password ? 'border-red-500' : 'border-gray-300'}`}
+            className={`mt-1 w-full border rounded-md shadow-sm p-2 pr-10 focus:outline-none focus:ring-2 focus:ring-black ${errors.password ? 'border-red-500' : 'border-gray-300'}`}
             required
           />
           <button

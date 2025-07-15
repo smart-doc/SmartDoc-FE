@@ -51,7 +51,7 @@ const HospitalSignUpStep5 = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="min-h-screen flex items-center justify-center bg-white px-4"
+      className="min-h-screen flex justify-center bg-white px-4 ml-5 mr-5 mt-10"
     >
       <div className="max-w-md w-full space-y-6">
         <div>
@@ -77,7 +77,7 @@ const HospitalSignUpStep5 = () => {
               name="specialties"
               value={formData.specialties}
               onChange={handleChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white focus:ring-2 focus:ring-black focus:outline-none"
+              className="mt-1 block w-full shadow-sm border border-gray-300 rounded-md p-2 bg-white focus:ring-2 focus:ring-black focus:outline-none"
               required
             >
               <option value="">Select available specialties</option>
@@ -99,7 +99,7 @@ const HospitalSignUpStep5 = () => {
               name="bedCapacity"
               value={formData.bedCapacity}
               onChange={handleChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white focus:ring-2 focus:ring-black focus:outline-none"
+              className="mt-1 block w-full shadow-sm border border-gray-300 rounded-md p-2 bg-white focus:ring-2 focus:ring-black focus:outline-none"
               required
             >
               <option value="">Select bed capacity</option>
@@ -123,7 +123,7 @@ const HospitalSignUpStep5 = () => {
               value={formData.yearFounded}
               onChange={handleChange}
               placeholder="Enter the year your hospital was founded"
-              className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-black focus:outline-none"
+              className="mt-1 block w-full shadow-sm border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-black focus:outline-none"
               required
             />
           </div>
@@ -140,7 +140,7 @@ const HospitalSignUpStep5 = () => {
                 name="accreditation"
                 value={formData.accreditation}
                 onChange={handleChange}
-                className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white focus:ring-2 focus:ring-black focus:outline-none"
+                className="mt-1 block w-full shadow-sm border border-gray-300 rounded-md p-2 bg-white focus:ring-2 focus:ring-black focus:outline-none"
               >
                 <option value="">Select your accreditation</option>
                 <option>ISO 9001</option>

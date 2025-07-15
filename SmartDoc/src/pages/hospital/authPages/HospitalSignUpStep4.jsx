@@ -54,7 +54,7 @@ const HospitalSignUpStep4 = () => {
               value={formData.registrationNumber}
               onChange={handleChange}
               placeholder="Enter your registration number"
-              className="w-full border border-gray-300 rounded-sm p-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+              className="w-full shadow-sm border border-gray-300 rounded-sm p-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
               required
             />
           </div>
@@ -72,7 +72,7 @@ const HospitalSignUpStep4 = () => {
               value={formData.website}
               onChange={handleChange}
               placeholder="Enter your hospital website address if you have one"
-              className="w-full border border-gray-300 rounded-sm p-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+              className="w-full shadow-sm border border-gray-300 rounded-sm p-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
             />
           </div>
         </div>

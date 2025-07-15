@@ -46,7 +46,7 @@ const HospitalSignUpStep1 = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white px-4">
+    <div className="min-h-screen flex justify-center bg-white px-4 ml-5 mr-5 mt-10">
       <div className="max-w-md w-full space-y-6">
         <div>
           <h2 className="text-2xl font-semibold text-gray-900">
@@ -119,14 +119,13 @@ const HospitalSignUpStep1 = () => {
               </button>
             </div>
           </div>
-
-          <button
-            type="submit"
-            className="w-full bg-black text-white py-2 rounded-md shadow hover:bg-gray-800 transition duration-200 text-sm font-medium"
-          >
-            Create account
-          </button>
         </form>
+        <button
+          type="submit"
+          className="w-full bg-black text-white py-2 rounded-md shadow hover:bg-gray-800 transition duration-200 text-sm font-medium"
+        >
+          Create account
+        </button>
       </div>
     </div>
   );

@@ -59,7 +59,7 @@ const PatientSignUpStep3 = () => {
           id="firstName"
           type="text"
           placeholder="Enter your first name"
-          className={`w-full border p-2 mb-4 rounded ${errors.firstName ? 'border-red-500' : ''}`}
+          className={`w-full border shadow-sm p-2 mb-4 rounded ${errors.firstName ? 'border-red-500' : 'border-gray-300'}`}
         />
 
         <label className="font-semibold" htmlFor="lastName">Last name</label>
@@ -72,7 +72,7 @@ const PatientSignUpStep3 = () => {
           id="lastName"
           type="text"
           placeholder="Enter your last name"
-          className={`w-full border p-2 mb-4 rounded ${errors.lastName ? 'border-red-500' : ''}`}
+          className={`w-full border shadow-sm p-2 mb-4 rounded ${errors.lastName ? 'border-red-500' : 'border-gray-300'}`}
         />
 
         <label className="font-semibold" htmlFor="dob">Date of birth</label>
@@ -84,7 +84,7 @@ const PatientSignUpStep3 = () => {
           name="dob"
           id="dob"
           type="date"
-          className={`w-full border p-2 mb-4 rounded ${errors.dob ? 'border-red-500' : ''}`}
+          className={`w-full border shadow-sm p-2 mb-4 rounded ${errors.dob ? 'border-red-500' : 'border-gray-300'}`}
         />
 
         <label className="font-semibold" htmlFor="gender">Gender</label>
@@ -95,7 +95,7 @@ const PatientSignUpStep3 = () => {
           required
           name="gender"
           id="gender"
-          className={`w-full border p-2 mb-6 rounded ${errors.gender ? 'border-red-500' : ''}`}
+          className={`w-full border shadow-sm p-2 mb-6 rounded ${errors.gender ? 'border-red-500' : 'border-gray-300'}`}
         >
           <option value="">Select your gender</option>
           <option value="Male">Male</option>

@@ -118,7 +118,7 @@ const HospitalSignUpStep2 = () => {
               onChange={(e) => handleChange(e.target.value, i)}
               onKeyDown={(e) => handleKeyDown(e, i)}
               ref={(el) => (inputRefs.current[i] = el)}
-              className={`w-10 h-10 text-center border rounded text-lg ${errors.otp ? 'border-red-500' : 'border-gray-300'}`}
+              className={`w-10 h-10 text-center border shadow-sm rounded text-lg ${errors.otp ? 'border-red-500' : 'border-gray-300'}`}
               required
             />
           ))}

@@ -6,6 +6,8 @@ import { toast } from 'react-toastify';
 const HospitalSignUpStep6 = () => {
   const [document, setDocument] = useState(null);
   const [error, setError] = useState('');
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadSuccess, setUploadSuccess] = useState(false);
   const navigate = useNavigate();
 
   const handleFileChange = (e) => {
@@ -17,16 +19,27 @@ const HospitalSignUpStep6 = () => {
     ) {
       setDocument(file);
       setError('');
+      setUploadSuccess(false); // Reset success state on new file selection
     } else {
       const errorMsg = file.size > 10 * 1024 * 1024 ? 'File size must be 10MB or less' : 'Please upload a .csv or .xlsx file';
       setError(errorMsg);
       toast.error(errorMsg);
+      setDocument(null);
+      setUploadSuccess(false);
     }
+  };
+
+  const handleRemoveFile = () => {
+    setDocument(null);
+    setError('');
+    setUploadSuccess(false);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setIsUploading(true);
+    setUploadSuccess(false);
 
     const hospitalData = JSON.parse(localStorage.getItem('hospitalData') || '{}');
 
@@ -34,6 +47,7 @@ const HospitalSignUpStep6 = () => {
       const errorMsg = 'Specialties must be a non-empty array';
       setError(errorMsg);
       toast.error(errorMsg);
+      setIsUploading(false);
       return;
     }
 
@@ -70,6 +84,10 @@ const HospitalSignUpStep6 = () => {
             'Content-Type': 'multipart/form-data',
           },
           timeout: 15000,
+          onUploadProgress: (progressEvent) => {
+            const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+            console.log(`Upload progress: ${percentCompleted}%`);
+          },
         }
       );
 
@@ -77,9 +95,10 @@ const HospitalSignUpStep6 = () => {
         localStorage.setItem('user', JSON.stringify(response.data.user));
       }
 
-      toast.success('Profile updated successfully!');
+      setUploadSuccess(true);
+      toast.success('Profile updated successfully! Doctors will receive account details via email.');
       localStorage.removeItem('hospitalData');
-      navigate('/hospitalSuccessPage');
+      setTimeout(() => navigate('/hospitalSuccessPage'), 1000); // Delay navigation for better UX
     } catch (error) {
       console.error('API error:', {
         message: error.message,
@@ -89,16 +108,22 @@ const HospitalSignUpStep6 = () => {
       const errorMsg = error.response?.data?.error || 'Failed to update profile';
       setError(errorMsg);
       toast.error(errorMsg);
+    } finally {
+      setIsUploading(false);
     }
   };
 
   const handleSkip = async () => {
+    setError('');
+    setIsUploading(true);
+
     const hospitalData = JSON.parse(localStorage.getItem('hospitalData') || '{}');
 
     if (!hospitalData.specialties || !Array.isArray(hospitalData.specialties) || hospitalData.specialties.length === 0) {
       const errorMsg = 'Specialties must be a non-empty array';
       setError(errorMsg);
       toast.error(errorMsg);
+      setIsUploading(false);
       return;
     }
 
@@ -140,7 +165,7 @@ const HospitalSignUpStep6 = () => {
 
       toast.success('Profile updated successfully!');
       localStorage.removeItem('hospitalData');
-      navigate('/hospitalSuccessPage');
+      setTimeout(() => navigate('/hospitalSuccessPage'), 1000);
     } catch (error) {
       console.error('API error:', {
         message: error.message,
@@ -150,13 +175,15 @@ const HospitalSignUpStep6 = () => {
       const errorMsg = error.response?.data?.error || 'Failed to update profile';
       setError(errorMsg);
       toast.error(errorMsg);
+    } finally {
+      setIsUploading(false);
     }
   };
 
   return (
     <form
       onSubmit={handleSubmit}
-      className="min-h-screen flex flex-col items-center justify-between bg-white px-4 py-10"
+      className="min-h-screen flex flex-col justify-between bg-white px-4 py-10 ml-5 mr-5 mt-10"
     >
       <div className="max-w-md w-full space-y-12">
         <div>
@@ -213,25 +240,78 @@ const HospitalSignUpStep6 = () => {
               onChange={handleFileChange}
               className="hidden"
               id="file-upload"
+              disabled={isUploading}
             />
-            <label htmlFor="file-upload" className="cursor-pointer">
+            <label htmlFor="file-upload" className={`cursor-pointer ${isUploading ? 'opacity-50 cursor-not-allowed' : ''}`}>
               <div className="text-gray-500 mb-2">
-                Click to upload a .csv or .xlsx file
+                {isUploading ? 'Uploading...' : 'Click to upload a .csv or .xlsx file'}
               </div>
               <div className="text-xs text-gray-400 mb-4">
                 Max size: 10MB
               </div>
               <button
                 type="button"
-                className="text-sm border-2 border-black px-4 py-2 rounded-md hover:bg-black hover:text-white"
+                className={`text-sm border-2 border-black px-4 py-2 rounded-md hover:bg-black hover:text-white ${isUploading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                disabled={isUploading}
               >
-                Upload File
+                {isUploading ? 'Uploading...' : 'Upload File'}
               </button>
             </label>
-            {document && (
-              <p className="mt-2 text-sm text-gray-600">
-                Selected file: {document.name}
-              </p>
+            {document && !isUploading && !uploadSuccess && (
+              <div className="mt-2 text-sm text-gray-600 flex items-center justify-center space-x-2">
+                <p>Selected file: {document.name}</p>
+                <button
+                  type="button"
+                  onClick={handleRemoveFile}
+                  className="text-red-500 hover:text-red-700 text-xs"
+                >
+                  Remove
+                </button>
+              </div>
+            )}
+            {isUploading && (
+              <div className="mt-2 text-sm text-gray-600 flex items-center justify-center">
+                <svg
+                  className="animate-spin h-5 w-5 mr-2 text-gray-500"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+                Uploading file...
+              </div>
+            )}
+            {uploadSuccess && (
+              <div className="mt-2 text-sm text-green-600 flex items-center justify-center">
+                <svg
+                  className="h-5 w-5 mr-2"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                File uploaded successfully!
+              </div>
             )}
           </div>
         </div>
@@ -239,9 +319,10 @@ const HospitalSignUpStep6 = () => {
 
       <button
         type="submit"
-        className="w-full max-w-md bg-black text-white py-2 rounded-md text-sm font-medium hover:bg-gray-800 transition-colors"
+        className={`w-full max-w-md bg-black text-white py-2 rounded-md text-sm font-medium hover:bg-gray-800 transition-colors ${isUploading ? 'opacity-50 cursor-not-allowed' : ''}`}
+        disabled={isUploading}
       >
-        Continue
+        {isUploading ? 'Submitting...' : 'Continue'}
       </button>
     </form>
   );

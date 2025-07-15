@@ -127,7 +127,7 @@ const PatientSignUpStep6 = () => {
               name="bloodGroup"
               value={form.bloodGroup}
               onChange={handleChange}
-              className={`w-full border rounded-sm p-2 text-sm focus:outline-none focus:ring-2 focus:ring-black ${errors.bloodGroup ? 'border-red-500' : 'border-gray-300'}`}
+              className={`w-full shadow-sm border rounded-sm p-2 text-sm focus:outline-none focus:ring-2 focus:ring-black ${errors.bloodGroup ? 'border-red-500' : 'border-gray-300'}`}
             >
               <option value="" disabled>Select your blood group</option>
               <option>A+</option>
@@ -152,7 +152,7 @@ const PatientSignUpStep6 = () => {
               placeholder="Enter your height in CM"
               min="0"
               max="300"
-              className={`w-full border rounded-sm p-2 text-sm focus:outline-none focus:ring-2 focus:ring-black ${errors.height_CM ? 'border-red-500' : 'border-gray-300'}`}
+              className={`w-full shadow-sm border rounded-sm p-2 text-sm focus:outline-none focus:ring-2 focus:ring-black ${errors.height_CM ? 'border-red-500' : 'border-gray-300'}`}
             />
           </div>
 
@@ -167,7 +167,7 @@ const PatientSignUpStep6 = () => {
               placeholder="Enter your weight in KG"
               min="0"
               max="1000"
-              className={`w-full border rounded-sm p-2 text-sm focus:outline-none focus:ring-2 focus:ring-black ${errors.weight_KG ? 'border-red-500' : 'border-gray-300'}`}
+              className={`w-full border shadow-sm rounded-sm p-2 text-sm focus:outline-none focus:ring-2 focus:ring-black ${errors.weight_KG ? 'border-red-500' : 'border-gray-300'}`}
             />
           </div>
         </div>

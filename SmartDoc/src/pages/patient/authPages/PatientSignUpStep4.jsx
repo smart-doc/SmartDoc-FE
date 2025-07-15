@@ -67,7 +67,7 @@ const PatientSignUpStep4 = () => {
               onChange={handleChange}
               type="tel"
               placeholder="Enter your phone number"
-              className={`w-full border rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-black ${errors.phoneNumber ? 'border-red-500' : 'border-gray-300'}`}
+              className={`w-full border shadow-sm rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-black ${errors.phoneNumber ? 'border-red-500' : 'border-gray-300'}`}
             />
           </div>
 
@@ -79,7 +79,7 @@ const PatientSignUpStep4 = () => {
               name="state"
               value={form.state}
               onChange={handleChange}
-              className={`w-full border rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-black ${errors.state ? 'border-red-500' : 'border-gray-300'}`}
+              className={`w-full border shadow-sm rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-black ${errors.state ? 'border-red-500' : 'border-gray-300'}`}
             >
               <option value="" disabled>Select your state</option>
               <option value="Abia">Abia</option>
@@ -132,7 +132,7 @@ const PatientSignUpStep4 = () => {
               onChange={handleChange}
               type="text"
               placeholder="Enter your city"
-              className={`w-full border rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-black ${errors.city ? 'border-red-500' : 'border-gray-300'}`}
+              className={`w-full border shadow-sm rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-black ${errors.city ? 'border-red-500' : 'border-gray-300'}`}
             />
           </div>
 
@@ -146,7 +146,7 @@ const PatientSignUpStep4 = () => {
               onChange={handleChange}
               type="text"
               placeholder="Enter your address"
-              className={`w-full border rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-black ${errors.address ? 'border-red-500' : 'border-gray-300'}`}
+              className={`w-full border shadow-sm rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-black ${errors.address ? 'border-red-500' : 'border-gray-300'}`}
             />
           </div>
         </div>
