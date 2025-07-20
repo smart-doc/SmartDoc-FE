@@ -26,7 +26,7 @@ const PatientSignUpStep1 = () => {
     setErrors({});
 
     try {
-      const response = await fetch('https://smartdoc-p1ca.onrender.com/api/v1/auth/register/patient', {
+      const response = await fetch('https://smartdoc-4fo9.onrender.com/api/v1/auth/register/patient', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

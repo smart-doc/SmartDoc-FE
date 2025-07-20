@@ -47,7 +47,7 @@ const DoctorVerifyOtp = () => {
 
     try {
       const response = await axios.post(
-        'https://smartdoc-p1ca.onrender.com/api/v1/auth/resend-otp',
+        'https://smartdoc-4fo9.onrender.com/api/v1/auth/resend-otp',
         { email },
         { headers: { 'Content-Type': 'application/json' } }
       );
@@ -98,7 +98,7 @@ const DoctorVerifyOtp = () => {
     try {
       // Verify OTP
       const verifyResponse = await axios.post(
-        'https://smartdoc-p1ca.onrender.com/api/v1/auth/verify-otp',
+        'https://smartdoc-4fo9.onrender.com/api/v1/auth/verify-otp',
         { email, otp: enteredOtp },
         { headers: { 'Content-Type': 'application/json' } }
       );

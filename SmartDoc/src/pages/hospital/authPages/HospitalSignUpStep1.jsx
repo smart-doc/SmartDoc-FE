@@ -24,7 +24,7 @@ const HospitalSignUpStep1 = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        'https://smartdoc-p1ca.onrender.com/api/v1/auth/register/hospital',
+        'https://smartdoc-4fo9.onrender.com/api/v1/auth/register/hospital',
         formData
       );
       const { token, user } = response.data;
