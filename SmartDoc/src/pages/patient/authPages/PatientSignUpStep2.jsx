@@ -51,7 +51,7 @@ const PatientSignUpStep2 = () => {
     }
 
     try {
-      const response = await fetch('https://smartdoc-p1ca.onrender.com/api/v1/auth/verify-otp', {
+      const response = await fetch('https://smartdoc-4fo9.onrender.com/api/v1/auth/verify-otp', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

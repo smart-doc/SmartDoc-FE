@@ -76,7 +76,7 @@ const HospitalSignUpStep6 = () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.post(
-        'https://smartdoc-p1ca.onrender.com/api/v1/user/profile/update',
+        'https://smartdoc-4fo9.onrender.com/api/v1/user/profile/update',
         formData,
         {
           headers: {
@@ -148,7 +148,7 @@ const HospitalSignUpStep6 = () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.post(
-        'https://smartdoc-p1ca.onrender.com/api/v1/user/profile/update',
+        'https://smartdoc-4fo9.onrender.com/api/v1/user/profile/update',
         formData,
         {
           headers: {

@@ -67,7 +67,7 @@ const PatientSignUpStep6 = () => {
         throw new Error('No authentication token found');
       }
 
-      const response = await fetch('https://smartdoc-p1ca.onrender.com/api/v1/user/profile/update', {
+      const response = await fetch('https://smartdoc-4fo9.onrender.com/api/v1/user/profile/update', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

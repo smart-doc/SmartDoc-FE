@@ -26,7 +26,7 @@
 //     }
 //     try {
 //       const response = await axios.post(
-//         'https://smartdoc-p1ca.onrender.com/api/v1/chat/sessions',
+//         'https://smartdoc-4fo9.onrender.com/api/v1/chat/sessions',
 //         {},
 //         { headers: { Authorization: `Bearer ${token}` } }
 //       );
@@ -65,7 +65,7 @@
 
 //     try {
 //       const response = await axios.post(
-//         'https://smartdoc-p1ca.onrender.com/api/v1/chat/messages',
+//         'https://smartdoc-4fo9.onrender.com/api/v1/chat/messages',
 //         {
 //           sessionId: currentSessionId,
 //           messageType: 'text',
@@ -102,7 +102,7 @@
 //     if (!sessionId) return;
 //     try {
 //       await axios.delete(
-//         `https://smartdoc-p1ca.onrender.com/api/v1/chat/delete/sessions/${sessionId}`,
+//         `https://smartdoc-4fo9.onrender.com/api/v1/chat/delete/sessions/${sessionId}`,
 //         { headers: { Authorization: `Bearer ${token}` } }
 //       );
 //       setSessionId(null);
@@ -196,7 +196,7 @@ const Chat = () => {
     }
     try {
       const response = await axios.post(
-        'https://smartdoc-p1ca.onrender.com/api/v1/chat/sessions',
+        'https://smartdoc-4fo9.onrender.com/api/v1/chat/sessions',
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -236,7 +236,7 @@ const Chat = () => {
       let response;
       if (message.type === 'text') {
         response = await axios.post(
-          'https://smartdoc-p1ca.onrender.com/api/v1/chat/messages',
+          'https://smartdoc-4fo9.onrender.com/api/v1/chat/messages',
           {
             sessionId: currentSessionId,
             messageType: 'text',
@@ -293,7 +293,7 @@ const Chat = () => {
     if (!sessionId) return;
     try {
       await axios.delete(
-        `https://smartdoc-p1ca.onrender.com/api/v1/chat/delete/sessions/${sessionId}`,
+        `https://smartdoc-4fo9.onrender.com/api/v1/chat/delete/sessions/${sessionId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setSessionId(null);

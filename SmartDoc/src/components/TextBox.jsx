@@ -21,7 +21,7 @@
 // //       if (!setSessionId) return; // Session ID managed by parent
 // //       try {
 // //         const response = await axios.post(
-// //           'https://smartdoc-p1ca.onrender.com/api/v1/chat/sessions',
+// //           'https://smartdoc-4fo9.onrender.com/api/v1/chat/sessions',
 // //           {},
 // //           { headers: { Authorization: `Bearer ${token}` } }
 // //         );
@@ -109,7 +109,7 @@
 //       if (!setSessionId) return;
 //       try {
 //         const response = await axios.post(
-//           'https://smartdoc-p1ca.onrender.com/api/v1/chat/sessions',
+//           'https://smartdoc-4fo9.onrender.com/api/v1/chat/sessions',
 //           {},
 //           { headers: { Authorization: `Bearer ${token}` } }
 //         );
@@ -178,7 +178,7 @@
 
 //     try {
 //       const response = await axios.post(
-//         'https://smartdoc-p1ca.onrender.com/api/v1/chat/messages/audio',
+//         'https://smartdoc-4fo9.onrender.com/api/v1/chat/messages/audio',
 //         formData,
 //         {
 //           headers: {
@@ -206,7 +206,7 @@
 //   const createSession = async () => {
 //     try {
 //       const response = await axios.post(
-//         'https://smartdoc-p1ca.onrender.com/api/v1/chat/sessions',
+//         'https://smartdoc-4fo9.onrender.com/api/v1/chat/sessions',
 //         {},
 //         { headers: { Authorization: `Bearer ${token}` } }
 //       );
@@ -298,7 +298,7 @@ const TextBox = ({ onSend, onVoiceStart, setSessionId }) => {
       if (!setSessionId) return;
       try {
         const response = await axios.post(
-          'https://smartdoc-p1ca.onrender.com/api/v1/chat/sessions',
+          'https://smartdoc-4fo9.onrender.com/api/v1/chat/sessions',
           {},
           { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -315,7 +315,7 @@ const TextBox = ({ onSend, onVoiceStart, setSessionId }) => {
   const createSession = async () => {
     try {
       const response = await axios.post(
-        'https://smartdoc-p1ca.onrender.com/api/v1/chat/sessions',
+        'https://smartdoc-4fo9.onrender.com/api/v1/chat/sessions',
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -473,7 +473,7 @@ const TextBox = ({ onSend, onVoiceStart, setSessionId }) => {
       formData.append('sessionId', sessionId);
 
       const response = await axios.post(
-        'https://smartdoc-p1ca.onrender.com/api/v1/chat/messages/audio',
+        'https://smartdoc-4fo9.onrender.com/api/v1/chat/messages/audio',
         formData,
         {
           headers: {

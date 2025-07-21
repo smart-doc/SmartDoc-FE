@@ -1,5 +1,5 @@
 const axiosInstance = axios.create({
-    baseURL: "https://smartdoc-p1ca.onrender.com/api/v1",
+    baseURL: "https://smartdoc-4fo9.onrender.com/api/v1",
     headers: {
       "Content-Type": "application/json",
     },

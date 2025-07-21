@@ -68,7 +68,7 @@ export const AuthProvider = ({ children }) => {
 
       try {
         const response = await axios.get(
-          'https://smartdoc-p1ca.onrender.com/api/v1/user/profile/get/SignedInUserProfile',
+          'https://smartdoc-4fo9.onrender.com/api/v1/user/profile/get/SignedInUserProfile',
           {
             headers: { Authorization: `Bearer ${token}` },
             timeout: 10000,
@@ -119,7 +119,7 @@ export const AuthProvider = ({ children }) => {
     dispatch({ type: 'AUTH_START' });
     try {
       const response = await axios.get(
-        `https://smartdoc-p1ca.onrender.com/api/v1/user/profile/get/${encodeURIComponent(email.toLowerCase())}`,
+        `https://smartdoc-4fo9.onrender.com/api/v1/user/profile/get/${encodeURIComponent(email.toLowerCase())}`,
         {
           headers: { 'Content-Type': 'application/json' },
           timeout: 10000,
@@ -145,7 +145,7 @@ export const AuthProvider = ({ children }) => {
     dispatch({ type: 'AUTH_START' });
     try {
       const response = await axios.post(
-        'https://smartdoc-p1ca.onrender.com/api/v1/auth/verify-otp',
+        'https://smartdoc-4fo9.onrender.com/api/v1/auth/verify-otp',
         { email: email.toLowerCase(), otp },
         {
           headers: { 'Content-Type': 'application/json' },
@@ -169,7 +169,7 @@ export const AuthProvider = ({ children }) => {
     dispatch({ type: 'AUTH_START' });
     try {
       const response = await axios.post(
-        'https://smartdoc-p1ca.onrender.com/api/v1/auth/resend-otp',
+        'https://smartdoc-4fo9.onrender.com/api/v1/auth/resend-otp',
         { email: email.toLowerCase() },
         {
           headers: { 'Content-Type': 'application/json' },
@@ -191,7 +191,7 @@ export const AuthProvider = ({ children }) => {
     dispatch({ type: 'AUTH_START' });
     try {
       const response = await axios.post(
-        'https://smartdoc-p1ca.onrender.com/api/v1/auth/signin',
+        'https://smartdoc-4fo9.onrender.com/api/v1/auth/signin',
         { email: email.toLowerCase(), password },
         { timeout: 10000 }
       );
@@ -201,7 +201,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('user', JSON.stringify(user));
 
       const profileResponse = await axios.get(
-        'https://smartdoc-p1ca.onrender.com/api/v1/user/profile/get/SignedInUserProfile',
+        'https://smartdoc-4fo9.onrender.com/api/v1/user/profile/get/SignedInUserProfile',
         {
           headers: { Authorization: `Bearer ${token}` },
           timeout: 10000,
