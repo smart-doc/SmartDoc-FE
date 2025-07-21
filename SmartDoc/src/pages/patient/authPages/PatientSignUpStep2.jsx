@@ -95,14 +95,14 @@ const PatientSignUpStep2 = () => {
   const isOtpComplete = otp.every((digit) => digit !== '');
 
   return (
-    <form onSubmit={handleSubmit} className="min-h-screen flex flex-col justify-between bg-white px-4 py-12">
+    <form onSubmit={handleSubmit} className="min-h-screen flex flex-col items-center justify-between bg-white px-4 py-12">
       <div>
         <h2 className="text-xl font-semibold mb-1 text-center">Verify your email</h2>
         <p className="text-sm text-gray-500 mb-6 text-center">
           We sent an OTP to {email}. Enter the pin to confirm your email. If you do not see the email, check your spam folder
         </p>
         {errors.otp && <div className="text-red-500 text-sm mb-4 text-center">{errors.otp}</div>}
-        <div className="flex justify-between gap-2 mb-6">
+        <div className="flex sm:gap-6 min-[300px]:gap-2 max-[300px]:flex-wrap mb-6 mx-auto min-[300px]:w-fit">
           {otp.map((digit, i) => (
             <input
               key={i}

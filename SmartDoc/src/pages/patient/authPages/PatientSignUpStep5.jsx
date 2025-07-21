@@ -93,7 +93,7 @@ const PatientSignUpStep5 = () => {
               name="emergencyContactRelationship"
               value={form.emergencyContactRelationship}
               onChange={handleChange}
-              className={`w-full border shadow-sm rounded-sm p-2 text-sm focus:outline-none focus:ring-2 focus:ring-black ${errors.emergencyContactRelationship ? 'border-red-500' : 'border-gray-300'}`}
+              className={`w-full border shadow-sm text-gray-500 rounded-sm p-2 text-sm focus:outline-none focus:ring-2 focus:ring-black ${errors.emergencyContactRelationship ? 'border-red-500' : 'border-gray-300'}`}
             >
               <option disabled value="">Select relationship</option>
               <option>Father</option>

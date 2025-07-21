@@ -79,7 +79,7 @@ const PatientSignUpStep4 = () => {
               name="state"
               value={form.state}
               onChange={handleChange}
-              className={`w-full border shadow-sm rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-black ${errors.state ? 'border-red-500' : 'border-gray-300'}`}
+              className={`w-full border text-gray-500 shadow-sm rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-black ${errors.state ? 'border-red-500' : 'border-gray-300'}`}
             >
               <option value="" disabled>Select your state</option>
               <option value="Abia">Abia</option>

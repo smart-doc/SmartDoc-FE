@@ -84,7 +84,7 @@ const PatientSignUpStep3 = () => {
           name="dob"
           id="dob"
           type="date"
-          className={`w-full border shadow-sm p-2 mb-4 rounded ${errors.dob ? 'border-red-500' : 'border-gray-300'}`}
+          className={`w-full border text-gray-500 shadow-sm p-2 mb-4 rounded ${errors.dob ? 'border-red-500' : 'border-gray-300'}`}
         />
 
         <label className="font-semibold" htmlFor="gender">Gender</label>
@@ -95,7 +95,7 @@ const PatientSignUpStep3 = () => {
           required
           name="gender"
           id="gender"
-          className={`w-full border shadow-sm p-2 mb-6 rounded ${errors.gender ? 'border-red-500' : 'border-gray-300'}`}
+          className={`w-full border text-gray-500 shadow-sm p-2 mb-6 rounded ${errors.gender ? 'border-red-500' : 'border-gray-300'}`}
         >
           <option value="">Select your gender</option>
           <option value="Male">Male</option>

@@ -114,7 +114,7 @@ const PatientSignUpStep6 = () => {
           A quick overview of your health profile helps doctors make better decisions
         </p>
 
-        {errors.general && (
+        {errors.general && (  
           <div className="text-red-500 text-sm mb-4 text-center">{errors.general}</div>
         )}
 
@@ -127,7 +127,7 @@ const PatientSignUpStep6 = () => {
               name="bloodGroup"
               value={form.bloodGroup}
               onChange={handleChange}
-              className={`w-full shadow-sm border rounded-sm p-2 text-sm focus:outline-none focus:ring-2 focus:ring-black ${errors.bloodGroup ? 'border-red-500' : 'border-gray-300'}`}
+              className={`w-full shadow-sm border text-gray-500 rounded-sm p-2 text-sm focus:outline-none focus:ring-2 focus:ring-black ${errors.bloodGroup ? 'border-red-500' : 'border-gray-300'}`}
             >
               <option value="" disabled>Select your blood group</option>
               <option>A+</option>
