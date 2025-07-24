@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 const PatientSignUpStep2 = () => {
   const [timer, setTimer] = useState(1800);
-  const [otp, setOtp] = useState(new Array(6).fill(''));
+  const [otp, setOtp] = useState(new Array(5).fill(''));
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const [email, setEmail] = useState('');
@@ -44,8 +44,8 @@ const PatientSignUpStep2 = () => {
     setErrors({});
 
     const enteredOtp = otp.join('');
-    if (enteredOtp.length !== 6) {
-      setErrors({ otp: 'Please enter all 6 digits' });
+    if (enteredOtp.length !== 5) {
+      setErrors({ otp: 'Please enter all 5 digits' });
       setLoading(false);
       return;
     }
